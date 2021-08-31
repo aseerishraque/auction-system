@@ -413,7 +413,7 @@ export default{
             {
                 CategoryService.index()
                 .then(response => {
-                    this.categories = response.data.data;	
+                    this.categories = response.data.categories;	
                 }).catch(response => {
                     console.log(response);
                 });
