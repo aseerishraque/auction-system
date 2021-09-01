@@ -1,5 +1,6 @@
 <template>
-<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Products </h2>
+<div class="w-3/5">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Products </h2>
 <!-- <div class="bg-gray-500 pt-3">
                 <div class="rounded-tl-4xl bg-gradient-to-r from-blue-400 to-gray-400 p-4 shadow text-2xl text-white">
                     <h3 class="font-bold pl-2">Products</h3>
@@ -25,7 +26,7 @@
                             <th class="px-4 py-3">Back-Image</th>
                             <th class="px-4 py-3">Left-Image</th>
                             <th class="px-4 py-3">Right-Image</th>
-                             <th class="px-4 py-3">Action</th>
+                            <th class="px-4 py-3">Action</th>
                             
                         </tr>
                     </thead>
@@ -220,28 +221,28 @@
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Front Image <span class="-ml-1 text-red-500">*</span>
                                         </span>
-                                        <img class="w-20 h-20" :src="path + form_data.front_image">
+                                        <img class="w-20 h-20" :src="form_data.front_image">
                                         <input type="file" @change="onImageChange"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Back Image <span class="-ml-1 text-red-500">*</span>
                                         </span>
-                                        <img class="w-20 h-20" :src="path + form_data.back_image">
+                                        <img class="w-20 h-20" :src="form_data.back_image">
                                         <input type="file" v-on:change="onImageChange1"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Left Image <span class="-ml-1 text-red-500">*</span>
                                         </span>
-                                        <img class="w-20 h-20" :src="path + form_data.left_image">
+                                        <img class="w-20 h-20" :src="form_data.left_image">
                                         <input type="file" v-on:change="onImageChange2"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Right Image <span class="-ml-1 text-red-500">*</span>
                                         </span>
-                                        <img class="w-20 h-20" :src="path + form_data.right_image">
+                                        <img class="w-20 h-20" :src="form_data.right_image">
                                         <input type="file" v-on:change="onImageChange3"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                 </div>
@@ -289,6 +290,7 @@
                 </div>
             </div>
         </div>
+</div>
 </template>
 
 <script>
@@ -322,12 +324,14 @@ export default{
                 specification:[],
                 description:[]
             },
+            left_image_preview:'',
         }
     },
     created()
     { 
     this.getproducts();
     this.getcategories();
+    this.left_image_preview = this.path + this.form_data.left_image;
     },
      methods:{
          onImageChange(e) {
@@ -389,6 +393,10 @@ export default{
             },
             openModal(index) {
                 this.form_data = this.products[index];
+                this.form_data.left_image = this.path + this.form_data.left_image;
+                this.form_data.right_image = this.path + this.form_data.right_image;
+                this.form_data.front_image = this.path + this.form_data.front_image;
+                this.form_data.back_image = this.path + this.form_data.back_image;
                 this.is_modal_open = true;
                 this.errors = null;
             },

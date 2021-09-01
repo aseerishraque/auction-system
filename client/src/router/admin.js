@@ -11,61 +11,61 @@ export default [{
             path: "dashboard",
             name: "admin.home",
             component: () =>
-                import (PATH + "home.vue"),
+                import ( /* @vite-ignore */PATH + "home.vue"),
         },
         {
             path: "categories",
             name: "admin.category.index",
             component: () =>
-                import (PATH + "Category/index.vue"),
+                import (/* @vite-ignore */PATH + "Category/index.vue"),
         },
         {
             path: "categories/create",
             name: "admin.category.create",
             component: () =>
-                import (PATH + "Category/create.vue"),
+                import (/* @vite-ignore */PATH + "Category/create.vue"),
         },
         {
             path: "product",
             name: "admin.product.index",
             component: () =>
-                import (PATH + "Product/index.vue"),
+                import (/* @vite-ignore */PATH + "Product/index.vue"),
         },
         {
             path: "product/create",
             name: "admin.product.create",
             component: () =>
-                import (PATH + "Product/create.vue"),
+                import (/* @vite-ignore */PATH + "Product/create.vue"),
         },
         {
-            path: "auction",
+            path: "auction/past",
             name: "admin.auction.past",
             component: () =>
-                import (PATH + "Auction/Past.vue"),
+                import (/* @vite-ignore */PATH + "Auction/Past.vue"),
         },
         {
-            path: "auction",
+            path: "auction/running",
             name: "admin.auction.running",
             component: () =>
-                import (PATH + "Auction/Running.vue"),
+                import (/* @vite-ignore */PATH + "Auction/Running.vue"),
         },
         {
-            path: "auction",
+            path: "auction/upcoming",
             name: "admin.auction.upcoming",
             component: () =>
-                import (PATH + "Auction/Upcoming.vue"),
+                import (/* @vite-ignore */PATH + "Auction/Upcoming.vue"),
         },
         {
             path: "auction/create",
             name: "admin.auction.create",
             component: () =>
-                import (PATH + "Auction/create.vue"),
+                import (/* @vite-ignore */PATH + "Auction/create.vue"),
         },
         {
             path: "auction/details/:id",
             name: "admin.auction.details",
             component: () =>
-                import (PATH + "Auction/Details.vue"),
+                import (/* @vite-ignore */PATH + "Auction/Details.vue"),
         },
     ]
 }, ];

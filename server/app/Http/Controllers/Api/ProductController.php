@@ -113,7 +113,7 @@ class ProductController extends Controller
         $status   = $products->count() ? true : false;
 
         return response()->json([
-            'data'   => $products,
+            'products'   => $products,
             'status' => $status,
         ], 201);
     }

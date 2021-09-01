@@ -1,5 +1,6 @@
 <template>
-    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Add Category </h2>
+<div>
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Add Category </h2>
             <!-- <div class="bg-gray-500 pt-3">
                 <div class="rounded-tl-4xl bg-gradient-to-r from-blue-400 to-gray-400 p-4 shadow text-2xl text-white">
                     <h3 class="font-bold pl-2">Add Auction</h3>
@@ -115,6 +116,7 @@
             </ul>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -164,7 +166,7 @@ export default {
             {
                     ProductService.getcurrentproducts(this.categoryid)
                 .then(response => {
-                    this.products = response.data.data;
+                    this.products = response.data.products;
                     console.log(this.products)	
                 }).catch(error => {
                     this.errors=error.response.data;
@@ -172,9 +174,9 @@ export default {
             },
             getcategories()
             {
-                    CategoryService.getCategory()
+                    CategoryService.index()
                 .then(response => {
-                    this.categories = response.data.data;
+                    this.categories = response.data.categories;
                     	
                 }).catch(error => {
                     this.errors=error.response.data;
@@ -182,10 +184,8 @@ export default {
             },
             select_value(e)
             {
-                 this.categoryid=e.target.value;
+                 this.categoryid = e.target.value;
                  this.getproducts();
-
-                
             }
 
         }

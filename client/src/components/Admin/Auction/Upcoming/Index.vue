@@ -210,7 +210,8 @@ export default {
                 categoryid:'',
                 is_loading:false,
                 is_saved:null,
-                is_modal_open:false
+                is_modal_open:false,
+                isUpdated:false
             }
         },
         created(){
@@ -263,7 +264,7 @@ export default {
             },
             getcategories()
             {
-                    CategoryService.getCategory()
+                    CategoryService.index()
                 .then(response => {
                     this.categories = response.data.data;
                     	
