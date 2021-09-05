@@ -1,13 +1,13 @@
 <template>
-    <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
-        <div class="py-4 text-gray-500 dark:text-gray-400">
-            <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+    <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0 bg-gradient-to-t from-green-200 to-blue-600 shadow">
+        <div class="py-4 text-white dark:text-gray-400">
+            <a class="ml-6 text-lg font-bold text-white dark:text-gray-200 " href="#">
                 Auction
             </a>
-            <ul class="mt-6">
+            <ul class="mt-6 menu">
                 <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.home' }" exact-active-class="font-bold text-black dark:text-gray-100">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
+                    <router-link :to="{ name: 'admin.home' }" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200 ">
                             <svg
                                 class="w-5 h-5"
                                 aria-hidden="true"
@@ -26,8 +26,8 @@
                         </a>
                     </router-link>
                 </li>
-                <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.category.index'}" exact-active-class="font-bold text-black dark:text-white">
+                <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold ">
+                    <router-link :to="{ name: 'admin.category.index'}" exact-active-class="font-bold text-black dark:text-white" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -37,7 +37,7 @@
                     </router-link>
                 </li>
                  <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.product.index'}" exact-active-class="font-bold text-black dark:text-gray-100">
+                    <router-link :to="{ name: 'admin.product.index'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -57,8 +57,8 @@
                         </a>
                     </router-link>
                 </li>
-                <ol class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.auction.create'}" exact-active-class="font-bold text-black dark:text-gray-100">
+                <ol class="relative px-6 py-3 font-semibold menu">
+                    <router-link :to="{ name: 'admin.auction.create'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@
                     </router-link>
                     
                     <li v-if="role === 'admin'"  class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.auction.past'}" exact-active-class="font-bold text-black dark:text-gray-100">
+                    <router-link :to="{ name: 'admin.auction.past'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@
                     </router-link>
                 </li>
                 <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.auction.running'}" exact-active-class="font-bold text-black dark:text-gray-100">
+                    <router-link :to="{ name: 'admin.auction.running'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@
                     </router-link>
                 </li>
                 <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.auction.upcoming'}" exact-active-class="font-bold text-black dark:text-gray-100">
+                    <router-link :to="{ name: 'admin.auction.upcoming'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
