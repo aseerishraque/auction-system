@@ -10,6 +10,7 @@
     "@tailwindcss/forms": "^0.3.3",
     "@vueuse/core": "^5.2.0",
     "axios": "^0.21.1",
+    "daisyui": "1.14.0",
     "moment": "^2.29.1",
     "vee-validate": "^3.4.11",
     "vue": "^3.0.5",
