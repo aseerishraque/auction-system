@@ -32,5 +32,13 @@ class UserController extends Controller
             'message' => 'Registered Successfully',
         ], 201);
     }
+
+    public function getBidders(){
+        $users = User::where('role', 'bidder')->get();
+        return response()->json([
+            'bidders'    => $users,
+            'message' => 'Bidders Data Retrieved Successfully',
+        ], 201);
+    }
     
 }

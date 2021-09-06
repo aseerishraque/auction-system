@@ -26,7 +26,7 @@
                         </a>
                     </router-link>
                 </li>
-                <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold ">
+                <li v-if="role === 'admin'" class="relative px-6 font-semibold ">
                     <router-link :to="{ name: 'admin.category.index'}" exact-active-class="font-bold text-black dark:text-white" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,7 +36,7 @@
                         </a>
                     </router-link>
                 </li>
-                 <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
+                 <li v-if="role === 'admin'" class="relative px-6 font-semibold">
                     <router-link :to="{ name: 'admin.product.index'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
@@ -54,6 +54,27 @@
                                 />
                             </svg>
                             <span class="ml-4">Products</span>
+                        </a>
+                    </router-link>
+                </li>
+                <li v-if="role === 'admin'" class="relative px-6  font-semibold">
+                    <router-link :to="{ name: 'admin.bidders.index'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                />
+                            </svg>
+                            <span class="ml-4">Bidders</span>
                         </a>
                     </router-link>
                 </li>
@@ -78,7 +99,7 @@
                         </a>
                     </router-link>
                     
-                    <li v-if="role === 'admin'"  class="relative px-6 py-3 font-semibold">
+                    <li v-if="role === 'admin'"  class="relative px-6  font-semibold">
                     <router-link :to="{ name: 'admin.auction.past'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
@@ -99,7 +120,7 @@
                         </a>
                     </router-link>
                 </li>
-                <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
+                <li v-if="role === 'admin'" class="relative px-6  font-semibold">
                     <router-link :to="{ name: 'admin.auction.running'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg
@@ -120,7 +141,7 @@
                         </a>
                     </router-link>
                 </li>
-                <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
+                <li v-if="role === 'admin'" class="relative px-6  font-semibold">
                     <router-link :to="{ name: 'admin.auction.upcoming'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
                             <svg

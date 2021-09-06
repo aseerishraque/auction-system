@@ -67,5 +67,11 @@ export default [{
             component: () =>
                 import (/* @vite-ignore */PATH + "Auction/Details.vue"),
         },
+        {
+            path: "bidders",
+            name: "admin.bidders.index",
+            component: () =>
+                import (/* @vite-ignore */PATH + "Bidders/index.vue"),
+        },
     ]
 }, ];

@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::resource('/categories', CategoryController::class)->only(['store', 'update']);
         Route::resource('/products', ProductController::class);
         Route::resource('/auction', AuctionController::class);
+        Route::get('/bidders', [UserController::class, 'getBidders']);
     });
 
     //bidder routes

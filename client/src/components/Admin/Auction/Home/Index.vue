@@ -2,8 +2,8 @@
 <div class="admin-dashboard">
 <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
 
-            <div class="bg-white-600 shadow rounded-lg">
-                <div class="rounded-tl-4xl bg-gradient-to-r from-white-300 to-white-600 p-4 shadow text-2xl text-black">
+            <div class="mb-3">
+                <div class="rounded-tl-4xl bg-gradient-to-r from-white-300 to-white-600 p-4 text-2xl text-black">
                     <h3 class="font-bold pl-2">Analytics</h3>
                 </div>
             </div>
