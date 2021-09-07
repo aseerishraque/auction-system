@@ -67,7 +67,7 @@
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Percentage
                                         </span>
-                                        <input type="text" required v-model="form_data.percentage" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
+                                        <input type="number" required v-model="form_data.percentage" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
                                     <div v-if="errors.percentage.length > 0" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mt-1 rounded relative" role="alert">
                                             <span class="block sm:inline">{{ errors.percentage[0]}}</span>
                                     </div>
@@ -167,9 +167,21 @@
                             </div>
                         </div>
                         <div class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+                           
                             <span v-if="is_saved" class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                 Product has been added
                             </span>
+                            <router-link :to="{name: 'admin.product.index'}">
+                            <button class="w-full py-2 px-4 inline-flex items-center justify-center gap-2 flex-none text-sm font-medium leading-6 text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </span> 
+                                Back to product
+                            </button>                           
+                            </router-link>
+
                             <button type="submit" :disabled="is_loading" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 flex-none bg-gray-900 hover:bg-gray-700 text-gray-100 text-sm leading-6 font-semibold py-2 px-4 border border-transparent rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-black focus:outline-none transition-colors duration-300">
                                 <span>Add Product</span> 
                                 <span v-if="is_loading">
@@ -178,7 +190,6 @@
                                     </svg>
                                 </span> 
                             </button>
-                            
                         </div>
                     </form>
     </div>
@@ -187,6 +198,7 @@
 <script>
 import ProductService from "../../../services/ProductService";
 import CategoryService from "../../../services/CategoryService";
+import LinkButton from '../../../components/LinkButton.vue';
 export default {
         data(){
             return {

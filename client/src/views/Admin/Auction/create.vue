@@ -1,6 +1,17 @@
 <template>
 <div>
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Add Auction </h2>
+    <router-link :to="{name: 'admin.auction.upcoming'}">
+        <button class="float-left mt-5 w-full py-2 px-4 inline-flex items-center justify-center gap-2 flex-none text-sm font-medium leading-6 text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray float-left">
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+            </span> 
+            View in Upcomming Auctions
+        </button>                           
+    </router-link>
+    <br>
+        <h2 class="clear-left my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Add Auction </h2>
             <!-- <div class="bg-gray-500 pt-3">
                 <div class="rounded-tl-4xl bg-gradient-to-r from-blue-400 to-gray-400 p-4 shadow text-2xl text-white">
                     <h3 class="font-bold pl-2">Add Auction</h3>
@@ -95,7 +106,6 @@
                         </svg>
                     </span> 
                 </button>
-
                 <span v-if="is_saved" class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                     {{this.message}}
                 </span>

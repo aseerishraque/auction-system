@@ -105,7 +105,8 @@
                             </td>
                             <td class="px-4 py-3 text-xs" v-else-if="auction.is_delivered==2">
                                 <button @click="Details(index)" type="submit">
-                                <span class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-blue-700 bg-blue-100 rounded-full dark:bg-blue-700 dark:text-blue-100">
+                                <!-- <span class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-blue-700 bg-blue-100 rounded-full dark:bg-blue-700 dark:text-blue-100"> -->
+                                <span class="btn btn-xs">
                                 Declined
                                 </span>  
                                 </button>
@@ -114,14 +115,16 @@
 
                                 <h2 class="px-4 py-3 text-xs" v-if="result">
                                 <button @click="updateAuctionStatus(index)" type="submit">
-                                <span class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                                <!-- <span class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100"> -->
+                                <span class="btn btn-error btn-xs">
                                 Cutfee
                                 </span>  
                                 </button>
                                 </h2>
                                 <h2 class="px-4 py-3 text-xs" v-if="!result">
                                 <button @click="updateAuctionStatus(index)" type="submit">
-                                <span class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                                <!-- <span class="mt-2 px-2 py-1 text-sm font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100"> -->
+                                <span class="btn btn-xs btn-accent">
                                 Pending
                                 </span>  
                                 </button>

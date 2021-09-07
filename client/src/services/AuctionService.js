@@ -13,19 +13,19 @@ export default {
         return Api().put('/admin/auction/' + id, auction);
     },
     getauctiondetails(id) {
-        return Api().get('/auction/details/' + id);
+        return Api().get('admin/auction-data/details/' + id);
     },
     getPastAuction() {
-        return Api().get('auction/past');
+        return Api().get('admin/auction-data/past');
     },
     updateAuctionStatus(id) {
-        return Api().get('auction/past/' + id);
+        return Api().get('admin/auction-data/past/' + id);
     },
     getRunningAuction() {
-        return Api().get('auction/running');
+        return Api().get('admin/auction-data/running');
     },
     getUpcomingAuction() {
-        return Api().get('auction/upcoming');
+        return Api().get('admin/auction-data/upcoming');
     },
     
     

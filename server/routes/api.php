@@ -20,11 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [UserController::class, 'store']);
 Route::get('auction/all', [AdminController::class, 'AllAuction']);
 Route::get('count/all', [AdminController::class, 'Allcount']);
-Route::get('auction/past', [AuctionController::class, 'PastAuction']);
-Route::get('auction/running', [AuctionController::class, 'RunningAuction']);
-Route::get('auction/upcoming', [AuctionController::class, 'UpcomingAuction']);
-Route::get('auction/past/{id}', [AuctionController::class, 'updateAuctionStatus']);
-Route::get('auction/details/{id}', [AuctionController::class, 'getauctiondetails']);
+
+
+
 Route::get('auction/create/getproduct/{id}', [ProductController::class, 'getproductsbyid']);
 
 Route::group(['middleware' => 'auth:api'], function ()
@@ -39,6 +37,11 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::resource('/categories', CategoryController::class)->only(['store', 'update']);
         Route::resource('/products', ProductController::class);
         Route::resource('/auction', AuctionController::class);
+        Route::get('auction-data/past', [AuctionController::class, 'PastAuction']);
+        Route::get('auction-data/running', [AuctionController::class, 'RunningAuction']);
+        Route::get('auction-data/upcoming', [AuctionController::class, 'UpcomingAuction']);
+        Route::get('auction-data/past/{id}', [AuctionController::class, 'updateAuctionStatus']);
+        Route::get('auction-data/details/{id}', [AuctionController::class, 'getauctiondetails']);
         Route::get('/bidders', [UserController::class, 'getBidders']);
     });
 

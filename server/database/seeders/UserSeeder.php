@@ -21,7 +21,11 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'role'       => 'admin',
-            'deposit'   =>100000
+            'deposit'   =>100000,
+            'mobile_no' =>'01523698547',
+            'account_type' => 'company',
+            'nid_no' => '2547896541',
+            'vat_no' => 'LI89HU9'
             ]);
 
         User::create([
@@ -31,7 +35,11 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'role'       => 'bidder',
-            'deposit'   =>100000
+            'deposit'   =>100000,
+            'mobile_no' =>'01523698547',
+            'account_type' => 'company',
+            'nid_no' => '2547896541',
+            'vat_no' => 'LI89HU9'
         ]);
         User::create([
             'name'       => 'Karim',
@@ -40,7 +48,11 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'role'       => 'bidder',
-            'deposit'   =>120000
+            'deposit'   =>120000,
+            'mobile_no' =>'01523698547',
+            'account_type' => 'company',
+            'nid_no' => '2547896541',
+            'vat_no' => 'LI89HU9'
         ]);
         User::create([
             'name'       => 'Rahim',
@@ -49,7 +61,11 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             'role'       => 'bidder',
-            'deposit'   =>150000
+            'deposit'   =>150000,
+            'mobile_no' =>'01523698547',
+            'account_type' => 'company',
+            'nid_no' => '2547896541',
+            'vat_no' => 'LI89HU9'
         ]);
     }
 }
