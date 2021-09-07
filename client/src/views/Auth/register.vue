@@ -8,7 +8,7 @@
                     <h2 class="text-lg font-bold tracking-tighter text-black uppercase duration-300 ease-in-out transform transition hover:text-blue-500 dark:text-gray-400"> Auction </h2>
                 </a>
                 <h1 class="mt-6 text-xl font-semibold text-black tracking-ringtighter sm:text-2xl title-font">Sign up to your account</h1>
-                <form class="mt-6 flex flex-col gap-4" method="POST" @submit.prevent="register(user)">
+                <form enctype="multipart/form-data" class="mt-6 flex flex-col gap-4" method="POST" @submit.prevent="register(user)">
                     <div class="flex flex-col md:flex-row gap-4 justify-center">
                         <div class="w-full">
                             <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">Name</label>
@@ -200,6 +200,7 @@ export default {
             register(user){
                 axios.post(API.register,user)
                 .then(response => {
+                    console.log(response);
                     let successMessage = response.data.message
                     this.msg=successMessage;
                 })

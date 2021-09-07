@@ -17,10 +17,10 @@ class AddColumnsToUsersTable extends Migration
             $table->string('mobile_no')->nullable();
             $table->string('account_type')->nullable();
             $table->string('nid_no')->nullable();
-            $table->binary('nid_front_img')->nullable();
-            $table->binary('nid_back_img')->nullable();
+            $table->string('nid_front_img')->nullable();
+            $table->string('nid_back_img')->nullable();
             $table->string('vat_no')->nullable();
-            $table->binary('vat_img')->nullable();
+            $table->string('vat_img')->nullable();
             $table->integer('deposit')->nullable();
             $table->boolean('is_approved')->default(0);
         });

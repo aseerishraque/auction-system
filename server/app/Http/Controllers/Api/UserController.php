@@ -17,20 +17,35 @@ class UserController extends Controller
         return $request->user();
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(Request $request)
     {
+        return response()->json([
+            'Info'    => $request->nid_front_img,
+            'message' => 'Registered Successfully',
+        ], 201);
+        
         $attributes = ['nid_front_img', 'nid_back_img', 'vat_img'];
 
         $image_attributes = (new SaveImageService)
-            ->saveImage($request, $attributes, $request->validated()['email'], 'images/user/info/')
+            ->saveImage($request, $attributes, $request['email'], 'images/user/info/')
             ->get();
 
-        $user = User::create(array_merge($request->validated(), $image_attributes));
+        try{
+            $user = User::create(array_merge($request, $image_attributes));
+            return response()->json([
+                'data'    => $user,
+                'message' => 'Registered Successfully',
+            ], 201);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ]);
+        }
+       
 
-        return response()->json([
-            'data'    => $user,
-            'message' => 'Registered Successfully',
-        ], 201);
+     
     }
 
     public function getBidders(){
