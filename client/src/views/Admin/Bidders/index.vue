@@ -26,7 +26,7 @@
 
 </div>
 </template>
-<script>
+<script >
 import BidderIndex from '../../../components/Admin/Bidder/Index.vue';
 import BidderIndexSkeleton from '../../../components/Admin/Bidder/IndexSkeleton.vue';
 

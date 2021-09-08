@@ -6,9 +6,8 @@
       <tr>
         <th>SL</th>
         <th>Name</th> 
-        <th>Vat</th> 
-        <th>Account</th> 
-        <th>Details</th>
+        <th>Account</th>  
+        <th>Balance</th> 
         <th>
             Approved
         </th>
@@ -20,11 +19,6 @@
         <td>{{ idx+1 }}</td>
         <td>
           <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="w-12 h-12 mask mask-squircle">
-                <img src="https://cdn5.vectorstock.com/i/1000x1000/27/64/avatar-man-cartoon-vector-10622764.jpg" alt="Avatar Tailwind CSS Component">
-              </div>
-            </div> 
             <div>
                  <div class="font-bold">
                     {{ bidder.name }}
@@ -42,31 +36,16 @@
           </div>
         </td> 
         <td>
-          <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="w-12 h-12 mask mask-squircle">
-                <img src="https://cdn5.vectorstock.com/i/1000x1000/27/64/avatar-man-cartoon-vector-10622764.jpg" alt="Avatar Tailwind CSS Component">
-              </div>
-            </div> 
-            <div>
-                 <div class="font-bold">
-                    {{ bidder.vat_no }}
-                </div>
-            </div>
-          </div>
+          {{ bidder.account_type }}
         </td>
         <td>
-           Deposit: {{ bidder.deposit }}
-            
+           {{ bidder.deposit }} 
           <br> 
-          <span class="badge badge-outline badge-sm">{{ bidder.account_type }}</span>
-        </td> 
-        <th>
-          <button class="btn btn-primary btn-xs">View</button>
-        </th>
+
+        </td>
         <td>
           <label>
-            <input type="checkbox" class="checkbox" :checked="bidder.is_approved===1 ? true : false">
+            <input @click="approveBidder(bidder.id, (bidder.is_approved===1 ? 0 : 1))" type="checkbox" class="checkbox" :checked="bidder.is_approved===1 ? true : false">
           </label>
         </td>
         <td class="px-4 py-3 text-xs">
@@ -87,9 +66,8 @@
       <tr>
         <th>SL</th>
         <th>Name</th> 
-        <th>Vat</th> 
         <th>Account</th> 
-        <th>Details</th>
+        <th>Deposit</th>
         <th>
             Approved
         </th> 
@@ -107,7 +85,7 @@ export default{
     data() {
         return {
             error: null,
-            bidders:[]
+            bidders:[],
         }
     },
     created() {
@@ -119,6 +97,18 @@ export default{
          .then(res=>{
            this.bidders = res.data.bidders;
          })
+         .catch(error=>{
+           console.log(error);
+         });
+        },
+        approveBidder(id, is_approved){
+          BidderService.approveBidder(id, is_approved)
+          .then(()=>{
+            // console.log(res);
+          })
+          .catch(error=>{
+            console.log(error);
+          });
         }
     },
 }

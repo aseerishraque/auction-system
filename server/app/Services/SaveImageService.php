@@ -19,7 +19,8 @@ class SaveImageService
             {
                 if(substr($request[$attribute], 0, 10) === 'data:image')
                 {
-                    $image     = Image::make($request[$attribute])->resize('200','200');
+                    // $image     = Image::make($request[$attribute])->resize('200','200');
+                    $image     = Image::make($request[$attribute]);
                     $file_type = explode('/', $image->mime())[1];
                     $file_name = $attribute . '-' . $prefix . '-' . time() . '.' . $file_type;
                     $filepath  = public_path() . '/' . $path;

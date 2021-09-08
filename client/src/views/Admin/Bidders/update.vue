@@ -52,11 +52,11 @@
                             </div>
                         <div>
                             <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">Password</label>
-                            <input type="password" v-model="user.password" required minlength="6" placeholder="Your Password" class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
+                            <input type="password" v-model="user.password" minlength="6" placeholder="Your Password" class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
                         </div> 
                         <div>
                             <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">Confirm Password</label>
-                            <input type="password" v-model="user.password_confirmation" required minlength="6" placeholder="Confirm Password" class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
+                            <input type="password" v-model="user.password_confirmation" minlength="6" placeholder="Confirm Password" class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
                         </div>
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-show="user.password!=user.password_confirmation && user.password_confirmation.length>0">
                             <span class="block sm:inline">Password and Confirm Password doesnt match</span>
@@ -124,26 +124,29 @@
                 </div>
             </div>  
             <div class="grid grid-cols-2 gap-2 h-3/5">
-                <div class="card text-center shadow-xl h-60 text-center">
-                <figure class="px-10 pt-10">
-                    <img :src="user.nid_front_img" class="rounded-xl" style="width:60%">
+                <div class="card text-center shadow-xl h-72 text-center">
+                <figure class="px-10 pt-10 object-contain h-48 w-full">
+                    <img :src="user.nid_front_img" class="rounded-xl object-contain h-32 w-full">
                 </figure> 
                 <div class="card-body">
                     <h2 class="card-title">NID Front</h2>
                 </div>
                 </div> 
-                <div class="card text-center shadow-xl h-60">
-                <figure class="px-10 pt-10">
-                    <img :src="user.nid_back_img" class="rounded-xl">
+                <div class="card text-center shadow-xl h-72">
+                <figure class="px-10 pt-10 object-contain h-48 w-full">
+                    <img :src="user.nid_back_img" class="rounded-xl object-contain h-32 w-full">
                 </figure> 
                 <div class="card-body">
                     <h2 class="card-title">NID Back</h2>
                 </div>
                 </div> 
-                 <div class="card text-center shadow-xl h-60">
-                <figure class="px-10 pt-10">
-                    <img :src="user.vat_img" class="rounded-xl">
-                </figure> 
+                 <div class="card text-center shadow-xl h-72">
+                     <!-- <div class="w-10 h-10 border"> -->
+                        <figure class="px-10 pt-10 ">
+                         <img :src="user.vat_img" class="rounded-xl object-contain h-32 w-full">
+                        </figure>
+                     <!-- </div> -->
+                 
                 <div class="card-body">
                     <h2 class="card-title">Vat</h2>
                     
@@ -203,12 +206,12 @@ export default {
                 if(this.user.nid_back_img !== null){
                     this.user.nid_back_img = this.path + "/" + this.user.nid_back_img;
                 }else{
-                    this.user.nid_front_img = "/images/pre-upload.png";
+                    this.user.nid_back_img = "/images/pre-upload.png";
                 }
                 if(this.user.vat_img !== null){
                     this.user.vat_img = this.path + "/" + this.user.vat_img;
                 }else{
-                    this.user.nid_front_img = "/images/pre-upload.png";
+                    this.user.vat_img = "/images/pre-upload.png";
                 }
             },
             onImageChange(e) {

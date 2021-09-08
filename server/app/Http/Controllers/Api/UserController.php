@@ -51,9 +51,20 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function updateBidder(StoreUserRequest $request, $id)
+    public function updateBidder(Request $request, $id)
     {
-        $request->validated();
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'password' => 'confirmed',
+            'mobile_no' => 'required|min:10',
+            'account_type' => 'required',
+            'nid_no' => 'required'
+        ]);
+        // return response()->json([
+        //     'info' => $id,
+        //     'message' => 'checking Update'
+        // ], 201);
         if($request->account_type == 'personal')
             $attributes = ['nid_front_img', 'nid_back_img'];
         else
@@ -63,25 +74,43 @@ class UserController extends Controller
             ->saveImage($request, $attributes, $request->email, 'images/user/info/')
             ->get();
         $user = new User();
+        $user = $user->find($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        if(isset($request->password))
+          $user->password = $request->password;
         $user->mobile_no = $request->mobile_no;
         $user->account_type = $request->account_type;
         $user->nid_no = $request->nid_no;
-        $user->nid_front_img = $image_attributes['nid_front_img'];
-        $user->nid_back_img = $image_attributes['nid_back_img'];
+        if(isset($image_attributes['nid_front_img']))
+            $user->nid_front_img = $image_attributes['nid_front_img'];
+        if(isset($image_attributes['nid_back_img']))
+            $user->nid_back_img = $image_attributes['nid_back_img'];
         if($request->account_type != 'personal')
         {
             $user->vat_no = $request->vat_no;
-            $user->vat_img = $image_attributes['vat_img'];
+            if(isset($image_attributes['vat_img']))
+                $user->vat_img = $image_attributes['vat_img'];
         }
         $user->save();
         $status = $user ? true : false;
         return response()->json([
            'data'    => $user,
            'status' => $status,
-            'message' => 'Registered Successfully',
+            'message' => 'Bidder Information Updated Successfully',
+        ], 201);
+    }
+
+    public function approveBidder($id, $is_approved){
+        $user = new User();
+        $user = $user->find($id);
+        $user->is_approved = $is_approved;
+        $user->save();
+        $status = $user ? true : false;
+        return response()->json([
+           'data'    => $user,
+           'status' => $status,
+           'message' => $user->name."'s Approval Updated"
         ], 201);
     }
 

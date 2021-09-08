@@ -15,5 +15,9 @@ export default {
 
     getBidder(id){
         return Api().get('admin/bidders/' + id);
+    },
+
+    approveBidder(id, is_approved){
+        return Api().get('admin/approvebidder/' + id + '/status/' + is_approved);
     }
 }

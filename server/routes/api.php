@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('/bidders', [UserController::class, 'getBidders']);
         Route::get('/bidders/{id}', [UserController::class, 'getBidder']);
         Route::put('/bidders/{id}', [UserController::class, 'updateBidder']);
+        Route::get('/approvebidder/{id}/status/{is_approved}', [UserController::class, 'approveBidder']);
     });
 
     //bidder routes
