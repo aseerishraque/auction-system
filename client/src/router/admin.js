@@ -73,5 +73,11 @@ export default [{
             component: () =>
                 import (/* @vite-ignore */PATH + "Bidders/index.vue"),
         },
+        {
+            path: "bidders/update-info/:id",
+            name: "admin.bidders.update",
+            component: () =>
+                import (/* @vite-ignore */PATH + "Bidders/update.vue"),
+        },
     ]
 }, ];

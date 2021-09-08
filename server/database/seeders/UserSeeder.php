@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'mobile_no' =>'01523698547',
             'account_type' => 'company',
             'nid_no' => '2547896541',
-            'vat_no' => 'LI89HU9'
+            'vat_no' => '1154789658'
             ]);
 
         User::create([
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
             'mobile_no' =>'01523698547',
             'account_type' => 'company',
             'nid_no' => '2547896541',
-            'vat_no' => 'LI89HU9'
+            'vat_no' => '1254489658'
         ]);
         User::create([
             'name'       => 'Karim',
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
             'mobile_no' =>'01523698547',
             'account_type' => 'company',
             'nid_no' => '2547896541',
-            'vat_no' => 'LI89HU9'
+            'vat_no' => '1254789655'
         ]);
         User::create([
             'name'       => 'Rahim',
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
             'mobile_no' =>'01523698547',
             'account_type' => 'company',
             'nid_no' => '2547896541',
-            'vat_no' => 'LI89HU9'
+            'vat_no' => '1254789658'
         ]);
     }
 }

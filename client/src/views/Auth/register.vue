@@ -93,7 +93,7 @@
                     <div  v-if="loginType">
                         <div>
                             <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">VAT Number</label>
-                            <input type="text" v-model="user.vat_no" placeholder="Your VAT Number"  class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
+                            <input type="number" v-model="user.vat_no" placeholder="Your VAT Number"  class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
                         </div> 
                         <div v-if="errors.vat_no.length > 0" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                             <span class="block sm:inline">{{ errors.vat_no[0]}}</span>
@@ -200,7 +200,6 @@ export default {
             register(user){
                 axios.post(API.register,user)
                 .then(response => {
-                    console.log(response);
                     let successMessage = response.data.message
                     this.msg=successMessage;
                 })

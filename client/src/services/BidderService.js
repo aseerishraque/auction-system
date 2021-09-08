@@ -11,5 +11,9 @@ export default {
 
     update(id, bidder) {
         return Api().put('admin/bidders/' + id, bidder);
+    },
+
+    getBidder(id){
+        return Api().get('admin/bidders/' + id);
     }
 }
