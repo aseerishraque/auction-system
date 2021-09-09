@@ -43,14 +43,14 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('auction-data/past/{id}', [AuctionController::class, 'updateAuctionStatus']);
         Route::get('auction-data/details/{id}', [AuctionController::class, 'getauctiondetails']);
         Route::get('/bidders', [UserController::class, 'getBidders']);
-        Route::get('/bidders/{id}', [UserController::class, 'getBidder']);
-        Route::put('/bidders/{id}', [UserController::class, 'updateBidder']);
         Route::get('/approvebidder/{id}/status/{is_approved}', [UserController::class, 'approveBidder']);
     });
-
+    Route::get('/bidders/{id}', [UserController::class, 'getBidder']);
+    Route::put('/bidders/{id}', [UserController::class, 'updateBidder']);
     //bidder routes
     Route::group(['prefix' => 'bidder', 'middleware' => 'is_bidder'], function ()
     {
-        //
+        Route::get('bids/{id}', [UserController::class, 'getUserBids']);
+        Route::get('products/{id}', [UserController::class, 'getUserProducts']);
     });
 });

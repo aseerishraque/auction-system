@@ -11,5 +11,31 @@ export default [{
         name: "bidder.home",
         component: () =>
             import ("../views/Bidder/home.vue"),
-    }]
+    },
+    {
+        path: "edit-profile",
+        name: "bidder.profile.edit",
+        component: () =>
+            import ("../views/Bidder/editProfile.vue"),
+    },
+    {
+        path: "bidding-history",
+        name: "bidder.bids",
+        component: () =>
+            import ("../views/Bidder/bids.vue"),
+    },
+    {
+        path: "my-products",
+        name: "bidder.products",
+        component: () =>
+            import ("../views/Bidder/products.vue"),
+    },
+    {
+        path: "deposit",
+        name: "bidder.deposit",
+        component: () =>
+            import ("../views/Bidder/deposit.vue"),
+    }
+    
+]
 }, ];

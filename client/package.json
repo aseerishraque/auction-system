@@ -15,6 +15,7 @@
     "vee-validate": "^3.4.11",
     "vue": "^3.0.5",
     "vue-router": "^4.0.10",
+    "vue-timer-hook": "0.0.21",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.0.0"
   },

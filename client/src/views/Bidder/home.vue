@@ -1,9 +1,11 @@
 <template>
-  <span>Bidder page</span>
-	<button
-		@click="logout()" class="block border text-lg text-white py-1 px-2 bg-red-500">
-		Logout
-	</button>
+<div>
+	<span>Bidder page</span>
+<!-- <button
+	@click="logout()" class="block border text-lg text-white py-1 px-2 bg-red-500">
+	Logout
+</button> -->
+</div>
 </template>
 
 <script>
@@ -25,7 +27,6 @@ export default {
 					alert(error);
 				});
 		}
-
 		return { logout };
 	},
 };

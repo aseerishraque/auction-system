@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Models\User;
 use App\Models\Auction;
+use App\Models\Bid;
 use App\Services\SaveImageService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -61,10 +62,6 @@ class UserController extends Controller
             'account_type' => 'required',
             'nid_no' => 'required'
         ]);
-        // return response()->json([
-        //     'info' => $id,
-        //     'message' => 'checking Update'
-        // ], 201);
         if($request->account_type == 'personal')
             $attributes = ['nid_front_img', 'nid_back_img'];
         else
@@ -129,6 +126,29 @@ class UserController extends Controller
                 'message' => 'Bidder Data Not Found'
             ], 401);
         }
+    }
+
+    public function getUserBids($id){
+        $bids = Bid::join('auctions', 'auctions.id', 'bids.auction_id')
+                    ->join('products', 'products.id', 'auctions.product_id')
+                    ->where('bids.user_id', $id)
+                    ->select('bids.*', 'products.product_name')
+                    ->get();
+        return response()->json([
+            'bids'    => $bids,
+            'message' => 'Users Bids Retrieved Successfully',
+        ], 201);
+    }
+
+    public function getUserProducts($id){
+        $products = Auction::join('products', 'products.id', 'auctions.product_id')
+                            ->where('auctions.user_id', $id)
+                            ->select('auctions.*', 'products.product_name')
+                            ->get();
+        return response()->json([
+        'products'    => $products,
+        'message' => 'Users Products Retrieved Successfully',
+        ], 201);
     }
 
     public function getBidders(){

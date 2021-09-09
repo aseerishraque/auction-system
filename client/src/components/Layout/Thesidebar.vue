@@ -56,9 +56,33 @@
                         </li>
                     </ul>
                 </li>
+                <li v-if="role === 'bidder'">
+                    <router-link :to="{ name: 'bidder.profile.edit'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <i class="fa fa-cogs"></i>
+                        <span class="ml-4">Edit Profile</span>
+                    </router-link>
+                </li>
+                <li v-if="role === 'bidder'">
+                    <router-link :to="{ name: 'bidder.bids'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <i class="fa fa-history"></i>
+                        <span class="ml-4">History</span>
+                    </router-link>
+                </li>
+                <li v-if="role === 'bidder'">
+                    <router-link :to="{ name: 'bidder.products'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <i class="fa fa-sitemap"></i>
+                        <span class="ml-4">Products</span>
+                    </router-link>
+                </li>
+                <li v-if="role === 'bidder'">
+                    <router-link :to="{ name: 'bidder.deposit'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <i class="fa fa-money-check"></i>
+                        <span class="ml-4">Deposit</span>
+                    </router-link>
+                </li>
             </ul>
             <!-- New Menu END -->
-
+            
         <!-- Old Sidebar start -->
             <!-- <ul class="mt-6 menu">
                 <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">

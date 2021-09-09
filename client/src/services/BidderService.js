@@ -10,11 +10,17 @@ export default {
     },
 
     update(id, bidder) {
-        return Api().put('admin/bidders/' + id, bidder);
+        return Api().put('bidders/' + id, bidder);
     },
 
     getBidder(id){
-        return Api().get('admin/bidders/' + id);
+        return Api().get('bidders/' + id);
+    },
+    getUserBids(id){
+        return Api().get('bidder/bids/' + id);
+    },
+    getUserProducts(id){
+        return Api().get('bidder/products/' + id);
     },
 
     approveBidder(id, is_approved){

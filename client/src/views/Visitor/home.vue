@@ -89,139 +89,9 @@
 <!-- Featured Section Start -->
     <h1 class="text-3xl mt-10">Featured Section</h1>
     <div class="grid grid-cols-3 gap-3">
-        
-        <div class="card bordered">
-        <figure>
-            <img src="https://picsum.photos/id/1005/400/250">
-        </figure> 
-        <div class="card-body">
-            <h2 class="card-title">Title
-            <div class="badge mx-2 badge-primary">NEW</div>
-            </h2> 
-                <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:15;"></span>
-                    </span>
-                        days
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:10;"></span>
-                    </span>
-                        hours
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:24;"></span>
-                    </span>
-                        min
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:60;"></span>
-                    </span>
-                        sec
-                    
-                </div>
-                </div>
-
-            <div class="justify-end card-actions">
-            <button class="btn btn-primary">More info</button>
-            </div>
-        </div>
-        </div>
-        <div class="card bordered">
-        <figure>
-            <img src="https://picsum.photos/id/1005/400/250">
-        </figure> 
-        <div class="card-body">
-            <h2 class="card-title">Title
-            <div class="badge mx-2 badge-primary">NEW</div>
-            </h2> 
-                <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:15;"></span>
-                    </span>
-                        days
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:10;"></span>
-                    </span>
-                        hours
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:24;"></span>
-                    </span>
-                        min
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:60;"></span>
-                    </span>
-                        sec
-                    
-                </div>
-                </div>
-
-            <div class="justify-end card-actions">
-            <button class="btn btn-primary">More info</button>
-            </div>
-        </div>
-        </div>
-        <div class="card bordered">
-        <figure>
-            <img src="https://picsum.photos/id/1005/400/250">
-        </figure> 
-        <div class="card-body">
-            <h2 class="card-title">Title
-            <div class="badge mx-2 badge-primary">NEW</div>
-            </h2> 
-                <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:15;"></span>
-                    </span>
-                        days
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:10;"></span>
-                    </span>
-                        hours
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:24;"></span>
-                    </span>
-                        min
-                    
-                </div> 
-                <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                    <span class="font-mono text-5xl countdown">
-                    <span style="--value:60;"></span>
-                    </span>
-                        sec
-                    
-                </div>
-                </div>
-
-            <div class="justify-end card-actions">
-            <button class="btn btn-primary">More info</button>
-            </div>
-        </div>
-        </div>
+      <AuctionItem expiryDate="2021-09-20"/>
+      <AuctionItem expiryDate="2021-09-15"/>
+      <AuctionItem expiryDate="2021-09-12"/>
     </div>
 <!-- Featured Section END -->
 <!-- Footer Start -->
@@ -259,12 +129,11 @@
 </div>
 </template>
 <script>
+import AuctionItem from '../../components/Visitor/AuctionItem.vue';
 export default {
-    data() {
-        return {
-            
-        }
-    },
+    components:{
+        AuctionItem
+    }
 }
 </script>
 
