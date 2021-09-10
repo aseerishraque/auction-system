@@ -104,14 +104,14 @@
                         <div  v-if="loginType">
                             <div>
                                 <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">VAT Number</label>
-                                <input type="number" v-model="user.vat_no" placeholder="Your VAT Number"  class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
+                                <input :disabled="!loginType" type="number" v-model="user.vat_no" placeholder="Your VAT Number"  class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
                             </div> 
                             <div v-if="errors.vat_no.length > 0" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                                 <span class="block sm:inline">{{ errors.vat_no[0]}}</span>
                             </div>
                             <div>
                                 <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">VAT Scan Copy</label>
-                                <input type="file" v-on:change="onImageChange2" placeholder="Scan copy" class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
+                                <input :disabled="!loginType" type="file" v-on:change="onImageChange2" placeholder="Scan copy" class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2" >
                             </div> 
                         </div>                    
                         <button type="submit" class="block w-full px-4 py-3  mt-6 mb-4 font-semibold text-white transition duration-300 ease-in-out transform bg-black rounded-lg hover:bg-gray-700 active:bg-black focus:shadow-outline focus:outline-none focus:ring-2 focus:ring-black ring-offset-2">
@@ -197,6 +197,13 @@ export default {
         this.getBidder(this.$route.params.id);
     },
     methods: {
+            viewCompanyFields(){
+                if(this.user.account_type === 'company'){
+                    this.loginType = true;
+                }else{
+                    this.loginType = false;
+                }
+            },
             setImagePath(){
                 if(this.user.nid_front_img !== null){
                     this.user.nid_front_img = this.path + "/" + this.user.nid_front_img;
@@ -279,6 +286,7 @@ export default {
                 .then(res=>{
                     this.user = res.data.bidder;
                     this.setImagePath();
+                    this.viewCompanyFields();
                 })
                 .catch(error => {
 					let data = error.response.data

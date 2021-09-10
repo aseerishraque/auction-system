@@ -196,6 +196,18 @@ class AuctionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $obj = Auction::find($id);
+        if($obj->delete())
+        {
+            return response()->json([
+                'status' => true,
+                'message' => 'Auction Deleted'
+            ], 201);
+        }else{
+            return response()->json([
+                'status' => false,
+                'messsage' => 'Auction Delete Error'
+            ], 400);
+        }
     }
 }

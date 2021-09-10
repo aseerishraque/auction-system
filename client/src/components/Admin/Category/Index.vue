@@ -7,7 +7,7 @@
         </div>
         <div class="w-full mb-4 overflow-hidden rounded-lg shadow-sm border">
             <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
+                <table class="w-full whitespace-no-wrap" v-if="renderComponent">
                     <thead>
                         <tr class=" text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3">#</th>
@@ -52,6 +52,12 @@
                     </tbody>
                 </table>
             </div>
+            <Pagination 
+                @set-active-page="setActivePage"
+                :total="pagination.total"
+                :pageCount="pagination.dataCount"
+                :activePage="pagination.activePage"
+            />
             <div v-if="is_modal_open" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
                 <div v-if="is_modal_open" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
                     <header class="flex justify-end">
@@ -112,16 +118,51 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import Pagination from '../../Pagination.vue';
+import { ref, nextTick  } from "vue";
 import moment from 'moment';
 import CategoryService from "../../../services/CategoryService";                 
+const pagination = {
+    dataCount: 5,
+    activePage:1,
+    total:0
+};
+
+
 
 const response = ref(await CategoryService.index());
-const categories = response.value.data.categories;
+const categories_data = response.value.data.categories;
+let categories = paginateItems();
+pagination.total = categories_data.length;
 const is_loading = ref(false);
 const isUpdated = ref(false);
 const errors = ref(null);
+let renderComponent = true;
+function setActivePage(payload){
+    console.log('Setting Active Page:', payload);
+    pagination.activePage = payload.page;
+    categories = paginateItems();
+    console.log(categories);
+    forceRerender();
+}
+function paginateItems(){
+        const start = (pagination.activePage-1)*pagination.dataCount;
+        const paginatedItems = categories_data.slice(start, start+pagination.dataCount);
+        // console.log(paginatedItems);
+        // categories = categories_data.slice(start, start+pagination.dataCount);
+        return paginatedItems;
+}
+function forceRerender() {
+    // Remove my-component from the DOM
+    renderComponent = false;
 
+    // If you like promises better you can
+    // also use nextTick this way
+    nextTick().then(() => {
+    // Add the component back in
+    renderComponent = true;
+    });
+}
 async function updateCategory() {
     is_loading.value = true;
     CategoryService.update(form_data.value.id, form_data.value)
@@ -149,4 +190,7 @@ function closeModal() {
     errors.value = null;
     is_loading.value = false;
 }
+
+
+
 </script>

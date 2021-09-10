@@ -132,6 +132,13 @@
                     </tbody>
                 </table>
             </div>
+  <Pagination
+      v-if="renderComponent"
+      @set-active-page="setActivePage"
+      :total="pagination.total"
+      :pageCount="pagination.dataCount"
+      :activePage="pagination.activePage"
+    />
             <br>
             <div v-if="is_modal_open" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
                 <div v-if="is_modal_open" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-5xl" role="dialog" id="modal">
@@ -298,11 +305,13 @@ import ProductService from "../../../services/ProductService";
 import CategoryService from "../../../services/CategoryService";
 import LinkButton from "../../../components/LinkButton.vue";
 import env from "../../../config/env";
+import Pagination from '../../../components/Pagination.vue';
 export default{
-    components:{LinkButton},
+    components:{LinkButton, Pagination},
 
     data() {
         return {
+            products_data:[],
             products:[],
             categories:[],
             errors:[],
@@ -312,6 +321,12 @@ export default{
             is_modal_open:false,
             update_product:[],
             is_loading:false,
+            pagination: {
+                dataCount: 4,
+                activePage:1,
+                total:0
+            },
+            renderComponent:true,
             errors:{
                 product_name: [],
                 model_no: [],
@@ -406,12 +421,35 @@ export default{
                 this.is_modal_open = false;
                 this.errors = null;
             },
+            forceRerender() {
+            // Remove my-component from the DOM
+            this.renderComponent = false;
+
+            // If you like promises better you can
+            // also use nextTick this way
+            this.$nextTick().then(() => {
+                // Add the component back in
+                this.renderComponent = true;
+            });
+            },
+            paginateItems(){
+            const start = (this.pagination.activePage-1)*this.pagination.dataCount;
+            this.products = this.products_data.slice(start, start+this.pagination.dataCount);
+            },
+            setActivePage(payload){
+            // console.log('Setting Active Page:', payload);
+            this.pagination.activePage = payload.page;
+            this.paginateItems();
+            },
             getproducts()
             {
                 ProductService.getProduct()
                 .then(response => { 
                     this.msg = response.data.status;
-                    this.products=response.data.data;  
+                    this.products_data=response.data.data;
+                    this.pagination.total = this.products_data.length;
+                    this.paginateItems();
+                    this.forceRerender();
                 })
                 .catch(error => {
                     this.errors=error.response.data;

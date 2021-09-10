@@ -62,14 +62,23 @@ class UserController extends Controller
             'account_type' => 'required',
             'nid_no' => 'required'
         ]);
-        if($request->account_type == 'personal')
-            $attributes = ['nid_front_img', 'nid_back_img'];
-        else
-            $attributes = ['nid_front_img', 'nid_back_img', 'vat_img'];
-
-        $image_attributes = (new SaveImageService)
+        $attributes = [];
+        
+        if(substr($request->nid_front_img, 0, 10) === 'data:image'){
+            array_push($attributes, 'nid_front_img');
+        }
+        if(substr($request->nid_back_img, 0, 10) === 'data:image'){
+            array_push($attributes, 'nid_back_img');
+        }
+        if(substr($request->vat_img, 0, 10) === 'data:image'){
+            array_push($attributes, 'vat_img');
+        }
+        if(count($attributes) > 0){
+            $image_attributes = (new SaveImageService)
             ->saveImage($request, $attributes, $request->email, 'images/user/info/')
             ->get();
+        }
+        
         $user = new User();
         $user = $user->find($id);
         $user->name = $request->name;

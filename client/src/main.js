@@ -12,7 +12,6 @@ axios.defaults.baseURL = env.baseURL;
 window.axios = axios;
 window.API = API;
 window.Store = Store;
-
 let access_token = Store.getters.getAccessToken;
 if (access_token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;

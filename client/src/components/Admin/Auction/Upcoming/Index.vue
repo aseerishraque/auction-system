@@ -93,6 +93,9 @@
                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                         </svg>
                                     </button>
+                                    <button @click="deleteAuction(auction.id, index)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                             
@@ -110,7 +113,7 @@
                         </button>
                     </header>
 
-                    <p class="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-300"> Edit category </p>
+                    <p class="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-300"> Edit Auction </p>
                     
                 <form @submit.prevent="updateAuction(form_data)">     
                         <div class="mb-16">
@@ -132,13 +135,13 @@
                                 <div class="w-full flex items-center gap-4">   
                                     <label class="w-full block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
-                                            Start Time
+                                            Result Time
                                         </span>
                                         <input type="datetime-local" required v-model="form_data.result_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
                                     </label>
                                     <label class="w-full block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
-                                            Close Time
+                                            Paying Time
                                         </span>
                                         <input type="datetime-local" required v-model="form_data.paying_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
                                     </label>
@@ -215,10 +218,32 @@ export default {
             }
         },
         created(){
-             this.getcategories();
-              this.getauctions();
+            this.getcategories();
+            this.getauctions();
+            // this.select_value();
 	    },
         methods: {
+            deleteAuction(id, index){
+                this.is_loading=true;
+                AuctionService.deleteAuction(id)
+                .then(()=>{
+                    this.auctions.splice(index, 1);
+                    this.is_loading=false;
+                })
+                .catch(error => {
+                    this.is_loading=false
+                    let data = error.response.data
+                    console.log(data)
+                    for (let key in data.errors) {
+						this.errors[key] = []
+						let errorMessage = data.errors[key]
+						if (errorMessage){
+							this.errors[key] = errorMessage
+						}
+					}	
+					
+				})
+            },
             updateAuction(form_data)
             {
                 this.is_loading=true
@@ -246,7 +271,7 @@ export default {
             {
                     ProductService.getcurrentproducts(this.categoryid)
                 .then(response => {
-                    this.products = response.data.data;
+                    this.products = response.data.products;
                     console.log(this.products)	
                 }).catch(error => {
                     this.errors=error.response.data;
@@ -266,7 +291,7 @@ export default {
             {
                     CategoryService.index()
                 .then(response => {
-                    this.categories = response.data.data;
+                    this.categories = response.data.categories;
                     	
                 }).catch(error => {
                     this.errors=error.response.data;
@@ -279,6 +304,7 @@ export default {
             },
             openModel(index){
             this.form_data = this.auctions[index];
+            // this.getproducts();
              console.log(this.form_data)
             this.is_modal_open = true;
             this.errors = null;

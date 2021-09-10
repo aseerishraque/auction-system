@@ -75,8 +75,25 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $attributes = ['front_image', 'back_image', 'left_image', 'right_image'];
-
+       
+        $attributes = [];
+        if(substr($request->front_image, 0, 10) === 'data:image')
+        {
+            array_push($attributes, 'front_image');
+        }
+        if(substr($request->back_image, 0, 10) === 'data:image')
+        {
+            array_push($attributes, 'back_image');
+        }
+        if(substr($request->left_image, 0, 10) === 'data:image')
+        {
+            array_push($attributes, 'left_image');
+        }
+        if(substr($request->right_image, 0, 10) === 'data:image')
+        {
+            array_push($attributes, 'right_image');
+        }
+        
         $status = $product->update(array_merge(
             $request->validated(),
             ['slug' => Str::slug($request->validated()['product_name'])],
@@ -84,9 +101,7 @@ class ProductController extends Controller
                 ->saveImage($request, $attributes, $request->validated()['sku'], 'images/products/')
                 ->get()
         ));
-
         $status = $product ? true : false;
-
         return response()->json([
             'status'  => $status,
             'message' => 'Product Updated Successfully.',

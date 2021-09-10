@@ -75,27 +75,52 @@
       </tr>
     </tfoot>
   </table>
+  <Pagination
+      v-if="renderComponent"
+      @set-active-page="setActivePage"
+      :total="pagination.total"
+      :pageCount="pagination.dataCount"
+      :activePage="pagination.activePage"
+    />
 </div>
 </template>
 
 <script>
 import BidderService from '../../../services/BidderService';
+import Pagination from '../../Pagination.vue';
+
 export default{
     name: 'BidderIndex',
+    components:{
+      Pagination
+    },
     data() {
         return {
             error: null,
+            bidders_data:[],
             bidders:[],
+            pagination: {
+                dataCount: 5,
+                activePage:1,
+                total:0
+            },
+            renderComponent:true
         }
     },
     created() {
         this.initialize();
     },
+    updated() {
+      // console.log('updated');
+    },
     methods: {
         initialize(){
          BidderService.index()
          .then(res=>{
-           this.bidders = res.data.bidders;
+          this.bidders_data = res.data.bidders;
+          this.pagination.total = this.bidders_data.length;
+          this.paginateItems();
+          this.forceRerender();
          })
          .catch(error=>{
            console.log(error);
@@ -109,6 +134,26 @@ export default{
           .catch(error=>{
             console.log(error);
           });
+        },
+        forceRerender() {
+          // Remove my-component from the DOM
+          this.renderComponent = false;
+
+          // If you like promises better you can
+          // also use nextTick this way
+          this.$nextTick().then(() => {
+            // Add the component back in
+            this.renderComponent = true;
+          });
+        },
+        paginateItems(){
+          const start = (this.pagination.activePage-1)*this.pagination.dataCount;
+          this.bidders = this.bidders_data.slice(start, start+this.pagination.dataCount);
+        },
+        setActivePage(payload){
+          // console.log('Setting Active Page:', payload);
+          this.pagination.activePage = payload.page;
+          this.paginateItems();
         }
     },
 }

@@ -12,6 +12,9 @@ export default {
     updateAuction(id, auction) {
         return Api().put('/admin/auction/' + id, auction);
     },
+    deleteAuction(id) {
+        return Api().delete('/admin/auction/' + id);
+    },
     getauctiondetails(id) {
         return Api().get('admin/auction-data/details/' + id);
     },

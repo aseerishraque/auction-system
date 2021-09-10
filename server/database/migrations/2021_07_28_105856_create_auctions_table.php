@@ -17,14 +17,14 @@ class CreateAuctionsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('category_id')->nullable()->constrained();
-            $table->date('start_time');
-            $table->date('close_time');
-            $table->date('result_time');
+            $table->timestamp('start_time', 0);
+            $table->timestamp('close_time', 0);
+            $table->timestamp('result_time', 0);
             $table->foreignId('user_id')->nullable()->constrained(); 
             $table->integer('winner_bid')->default(0);
             $table->boolean('status')->default(0);
             $table->boolean('is_delivered')->default(0);
-            $table->date('paying_time')->nullable();
+            $table->timestamp('paying_time', 0)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

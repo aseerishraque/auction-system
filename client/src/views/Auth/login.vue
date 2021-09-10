@@ -7,7 +7,10 @@
                     </div>
                     <h2 class="text-lg font-bold tracking-tighter text-black uppercase duration-300 ease-in-out transform transition hover:text-blue-500 dark:text-gray-400"> Auction </h2>
                 </a>
-                <h1 class="mt-12 text-xl font-semibold text-black tracking-ringtighter sm:text-2xl title-font">Sign in to your account</h1>
+                <router-link :to="{name: 'visitor.home'}">
+                    <button type="submit" class="btn bg-black rounded-md mr-10 mt-10">Back to Home Page</button> 
+                </router-link>
+                <h1 class="mt-10 text-xl font-semibold text-black tracking-ringtighter sm:text-2xl title-font">Sign in to your account</h1>
                 <form class="mt-6" @submit.prevent="login(user)">
                     <div>
                         <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">Email Address</label>
