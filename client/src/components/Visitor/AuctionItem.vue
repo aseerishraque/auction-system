@@ -1,11 +1,11 @@
 <template>
 <div class="card bordered">
-    <figure>
+    <figure class="">
         <!-- <img src="https://picsum.photos/id/1005/400/250"> -->
-        <img :src="front_image">
+        <img :src="front_image" class="object-contain h-36 w-full">
     </figure> 
     <div class="card-body">
-        <h2 class="card-title">{{ auction.product_name }}
+        <h2 class="card-title">{{ product_name }}
         <!-- <div class="badge mx-2 badge-primary">NEW</div> -->
         </h2> 
             <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
@@ -40,9 +40,9 @@
             </div>
 
         <div class="justify-end card-actions">
-        <!-- <router-link> -->
+        <router-link :to="{name: 'visitor.product', params: {id}}">
             <button class="btn btn-primary">More info</button>
-        <!-- </router-link> -->
+        </router-link>
         </div>
     </div>
 </div>
@@ -51,25 +51,13 @@
 <script>
 import {  watchEffect, onMounted } from "vue";
 import { useTimer } from 'vue-timer-hook';
-import env from '../../config/env';
+
 export default {
     props: {
         expiryDate: String,
-        auction: Object
-    },
-    data() {
-        return {
-            public_url: env.baseURL,
-            front_image: '',
-        }
-    },
-    created() {
-        if(this.auction.front_image !== null)
-        {
-            this.front_image = this.public_url+'/'+this.front_image;
-        }else{
-            this.front_image = '/images/pre-upload.png';
-        }
+        product_name: String,
+        front_image: String,
+        id: Number
     },
     setup(props){
         const time = new Date(props.expiryDate);
@@ -87,7 +75,7 @@ export default {
         }
     },
     created() {
-        console.log(this.expiryDate)
+        // console.log(this.expiryDate)
     },
     
 }

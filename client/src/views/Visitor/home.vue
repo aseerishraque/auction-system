@@ -1,47 +1,7 @@
 <template>
 <div class="container mx-auto " data-theme="cupcake">
     <!-- NavBar Start -->
-    <div class="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box">
-    <div class="px-2 mx-2 navbar-start">
-        <span class="text-lg font-bold">
-                Auction
-            </span>
-    </div> 
-    <div class="hidden px-2 mx-2 navbar-center lg:flex">
-        <div class="flex items-stretch">
-        <!-- <a class="btn btn-ghost btn-sm rounded-btn">
-                Home
-                </a> 
-        <a class="btn btn-ghost btn-sm rounded-btn">
-                Portfolio
-                </a> 
-        <a class="btn btn-ghost btn-sm rounded-btn">
-                About
-                </a> 
-        <a class="btn btn-ghost btn-sm rounded-btn">
-                Contact
-                </a> -->
-        </div>
-    </div> 
-    <div class="navbar-end">
-        <!-- <button class="btn btn-square btn-ghost">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">     
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>                     
-        </svg>
-        </button> 
-        <button class="btn btn-square btn-ghost">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">             
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>             
-        </svg>
-        </button> -->
-        <router-link :to="{name: 'auth.register'}">
-            <button class="btn btn-info rounded-md mr-5 text-white">Sign Up</button> 
-        </router-link>
-        <router-link :to="{name: 'auth.login'}">
-            <button class="btn btn-info rounded-md mr-10 text-white">Login</button> 
-        </router-link>
-    </div>
-    </div>
+    <NavBar/>
     <!-- NavBar END -->
 <!-- Carousel start -->
     <div class="carousel relative shadow-2xl bg-white rounded-box">
@@ -97,7 +57,9 @@
     <div class="grid grid-cols-3 gap-3">
       <AuctionItem v-for="(runningAuction, index) in runningAuctions" :key="index" 
         :expiryDate="runningAuction.close_time"
-        :auction="auction"
+        :front_image="runningAuction.front_image"
+        :product_name="runningAuction.product_name"
+        :id="runningAuction.id"
         />
     </div>
 <!-- Featured Section END -->
@@ -138,17 +100,22 @@
 <script>
 import AuctionItem from '../../components/Visitor/AuctionItem.vue';
 import AuctionService from '../../services/AuctionService';
+import env from '../../config/env';
+import NavBar from '../../components/Visitor/Navbar.vue';
 export default {
     components:{
-        AuctionItem
+        AuctionItem,
+        NavBar
     },
     data() {
         return {
             runningAuctions_data:[],
             runningAuctions:[],
+            public_url: ''
         }
     },
     created() {
+        this.public_url = env.baseURL;
         this.initialize();
     },
     methods: {
@@ -156,8 +123,17 @@ export default {
             AuctionService.getRunningAuction()
             .then(res=>{
                 this.runningAuctions_data = res.data.data;
+                this.runningAuctions_data = this.runningAuctions_data.map(a=>{
+                    if(a.front_image !== null)
+                    {
+                        a.front_image = this.public_url+'/'+a.front_image;
+                    }else{
+                        a.front_image = '/images/pre-upload.png';
+                    }
+                    return a;
+                });
                 this.runningAuctions = {...this.runningAuctions_data};
-                console.log(this.runningAuctions_data[0]);
+                // console.log(this.runningAuctions_data[0].front_image);
             })
             .catch(error=>{
                 console.log(error);

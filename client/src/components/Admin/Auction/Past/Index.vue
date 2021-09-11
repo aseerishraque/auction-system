@@ -189,7 +189,7 @@ export default {
             auctions_data:[],
             auctions:[],
             pagination: {
-                dataCount: 1,
+                dataCount: 5,
                 activePage:1,
                 total:0
             },

@@ -16,7 +16,7 @@ export default {
         return Api().delete('/admin/auction/' + id);
     },
     getauctiondetails(id) {
-        return Api().get('admin/auction-data/details/' + id);
+        return Api().get('auction-data/details/' + id); //public route
     },
     getPastAuction() {
         return Api().get('admin/auction-data/past');
@@ -25,7 +25,7 @@ export default {
         return Api().get('admin/auction-data/past/' + id);
     },
     getRunningAuction() {
-        return Api().get('auction-data/running');
+        return Api().get('auction-data/running'); //public route
     },
     getUpcomingAuction() {
         return Api().get('admin/auction-data/upcoming');

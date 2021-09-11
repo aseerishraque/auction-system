@@ -74,85 +74,9 @@
                         <span class="ml-4">Products</span>
                     </router-link>
                 </li>
-                <li v-if="role === 'bidder'">
-                    <router-link :to="{ name: 'bidder.deposit'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <i class="fa fa-money-check"></i>
-                        <span class="ml-4">Deposit</span>
-                    </router-link>
-                </li>
             </ul>
             <!-- New Menu END -->
-            
-        <!-- Old Sidebar start -->
-            <!-- <ul class="mt-6 menu">
-                <li v-if="role === 'admin'" class="relative px-6 py-3 font-semibold">
-                    <router-link :to="{ name: 'admin.home' }" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200 ">
-                            <i class="fa fa-home"></i>
-                            <span class="ml-4">Dashboard</span>
-                        </a>
-                    </router-link>
-                </li>
-                <li v-if="role === 'admin'" class="relative px-6 font-semibold ">
-                    <router-link :to="{ name: 'admin.category.index'}" exact-active-class="font-bold text-black dark:text-white" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fa fa-file-alt"></i>
-                            <span class="ml-4">Categories</span>
-                        </a>
-                    </router-link>
-                </li>
-                 <li v-if="role === 'admin'" class="relative px-6 font-semibold">
-                    <router-link :to="{ name: 'admin.product.index'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fa fa-address-book"></i>
-                            <span class="ml-4">Products</span>
-                        </a>
-                    </router-link>
-                </li>
-                <li v-if="role === 'admin'" class="relative px-6  font-semibold">
-                    <router-link :to="{ name: 'admin.bidders.index'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fa fa-users"></i>
-                            <span class="ml-4">Bidders</span>
-                        </a>
-                    </router-link>
-                </li>
-                <ul class="relative px-6 py-3 font-semibold menu">
-                    <router-link :to="{ name: 'admin.auction.create'}" exact-active-class="font-bold text-black dark:text-gray-100" class="ml-5">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fa fa-balance-scale"></i>
-                            <span class="ml-4">Auctions</span>
-                        </a>
-                    </router-link>
-                    
-                    <li v-if="role === 'admin'"  class="relative px-6  font-semibold">
-                    <router-link :to="{ name: 'admin.auction.past'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fa fa-history"></i>
-                            <span class="ml-4">Past Auctions</span>
-                        </a>
-                    </router-link>
-                </li>
-                <li v-if="role === 'admin'" class="relative px-6  font-semibold">
-                    <router-link :to="{ name: 'admin.auction.running'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fa fa-hourglass-half"></i>
-                            <span class="ml-4">Running Auctions</span>
-                        </a>
-                    </router-link>
-                </li>
-                <li v-if="role === 'admin'" class="relative px-6  font-semibold">
-                    <router-link :to="{ name: 'admin.auction.upcoming'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
-                        <a class="inline-flex items-center w-full text-sm  transition-colors duration-150 hover:text-black dark:hover:text-gray-200">
-                            <i class="fas fa-external-link-alt"></i>
-                            <span class="ml-4">Upcoming Auctions</span>
-                        </a>
-                    </router-link>
-                </li>
-            </ul>
-                
-            </ul> -->
-        <!-- Old Sidebar END -->
+
         </div>
     </aside>
 </template>

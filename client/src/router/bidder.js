@@ -29,12 +29,6 @@ export default [{
         name: "bidder.products",
         component: () =>
             import ("../views/Bidder/products.vue"),
-    },
-    {
-        path: "deposit",
-        name: "bidder.deposit",
-        component: () =>
-            import ("../views/Bidder/deposit.vue"),
     }
     
 ]

@@ -1,0 +1,146 @@
+<template>
+<div>
+    <NavBar/>
+    <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="card text-center shadow-xl h-72 text-center">
+                <figure class="pt-10 object-contain h-48 w-full">
+                    <img :src="auction.front_image" class="rounded-xl object-contain h-32 w-full">
+                </figure> 
+                <div class="card-body">
+                    <h2 class="card-title">Front</h2>
+                </div>
+            </div>
+            <div class="card text-center shadow-xl h-72 text-center">
+                <figure class="pt-10 object-contain h-48 w-full">
+                    <img :src="auction.back_image" class="rounded-xl object-contain h-32 w-full">
+                </figure> 
+                <div class="card-body">
+                    <h2 class="card-title">Back</h2>
+                </div>
+            </div>
+            <div class="card text-center shadow-xl h-72 text-center">
+                <figure class="pt-10 object-contain h-48 w-full">
+                    <img :src="auction.left_image" class="rounded-xl object-contain h-32 w-full">
+                </figure> 
+                <div class="card-body">
+                    <h2 class="card-title">Left</h2>
+                </div>
+            </div>
+            <div class="card text-center shadow-xl h-72 text-center">
+                <figure class="pt-10 object-contain h-48 w-full">
+                    <img :src="auction.right_image" class="rounded-xl object-contain h-32 w-full">
+                </figure> 
+                <div class="card-body">
+                    <h2 class="card-title">Right</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card lg:card-side bordered">
+            <div class="card-body">
+                <h2 class="card-title">Product: {{ auction.product_name }}</h2> 
+                <h2 class="text-lg font-bold">Base Price: {{ auction.base_price }}</h2> 
+                <p> {{ auction.description }} </p>
+
+                <CountDown v-if="renderComponent" :dateTime="auction.close_time" />
+                <!-- <div class="form-control">
+                 <input type="text" placeholder="Bid" class="input input-bordered">
+                </div>  -->
+                <div class="card-actions mt-10">
+                    <input :disabled="!is_logged_in" type="number" placeholder="00.0" class="input input-bordered">
+                <button :disabled="!is_logged_in" class="ml-10 btn btn-primary">Bid</button> 
+                <!-- <button class="btn btn-ghost">More info</button> -->
+                </div>
+                <div v-if="!is_logged_in" class="alert alert-warning mt-10">
+                    <div class="flex-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current"> 
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>                         
+                        </svg> 
+                        <label>Please Sign In to Bid!</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+import NavBar from '../../components/Visitor/Navbar.vue';
+import AuctionService from '../../services/AuctionService';
+import CountDown from '../../components/Visitor/CountDown.vue';
+import env from '../../config/env';
+export default {
+    components:{
+        NavBar,
+        CountDown
+    },
+    data() {
+        return {
+            auctions:[],
+            auction:{
+                front_image: '/images/pre-upload.png',
+                back_image: '/images/pre-upload.png',
+                left_image: '/images/pre-upload.png',
+                right_image: '/images/pre-upload.png',
+            },
+            auctionid: this.$route.params.id,
+            renderComponent:true,
+            is_logged_in: false
+        }
+    },
+    created() {
+        
+        if(Store.state.currentUser !== null){
+            this.is_logged_in = true;
+        }
+        this.getauctiondetails();
+    },
+    methods: {
+        getauctiondetails()
+        {
+        AuctionService.getauctiondetails(this.auctionid)
+                .then(response => {
+                    this.auctions = response.data.data;
+                    this.auction = this.auctions[0];
+                    if(this.auction.front_image !== null){
+                        this.auction.front_image = env.baseURL + '/' + this.auction.front_image;
+                    }else{
+                        this.auction.front_image = '/images/pre-upload.png';
+                    }
+                    if(this.auction.back_image !== null){
+                        this.auction.back_image = env.baseURL + '/' + this.auction.back_image;
+                    }else{
+                        this.auction.back_image = '/images/pre-upload.png';
+                    }
+                    if(this.auction.left_image !== null){
+                        this.auction.left_image = env.baseURL + '/' + this.auction.left_image;
+                    }else{
+                        this.auction.left_image = '/images/pre-upload.png';
+                    }
+                    if(this.auction.right_image !== null){
+                        this.auction.right_image = env.baseURL + '/' + this.auction.right_image;
+                    }else{
+                        this.auction.right_image = '/images/pre-upload.png';
+                    }
+                    this.forceRerender();
+                    // console.log(this.auction.front_image)	
+                }).catch(response => {
+                    this.errors=response.error.data;
+                });
+        },
+        forceRerender() {
+          // Remove my-component from the DOM
+          this.renderComponent = false;
+
+          // If you like promises better you can
+          // also use nextTick this way
+          this.$nextTick().then(() => {
+            // Add the component back in
+            this.renderComponent = true;
+          });
+        },
+    },
+    
+}
+</script>
