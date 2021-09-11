@@ -17,9 +17,9 @@ class CreateAuctionsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('category_id')->nullable()->constrained();
-            $table->timestamp('start_time', 0);
-            $table->timestamp('close_time', 0);
-            $table->timestamp('result_time', 0);
+            $table->timestamp('start_time', 0)->nullable();
+            $table->timestamp('close_time', 0)->nullable();
+            $table->timestamp('result_time', 0)->nullable();
             $table->foreignId('user_id')->nullable()->constrained(); 
             $table->integer('winner_bid')->default(0);
             $table->boolean('status')->default(0);
