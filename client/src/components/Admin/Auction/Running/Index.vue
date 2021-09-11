@@ -142,6 +142,7 @@ export default {
             // console.log(this.auctionresponse.data.data);
             this.auctions_data = this.auctionresponse.data.data;
             this.pagination.total = this.auctions_data.length;
+            console.log(this.auctionresponse.data.now);
             this.paginateItems();
             // console.log(this.categories[0]);
         },

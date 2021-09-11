@@ -38,6 +38,7 @@ class AuctionController extends Controller
      */
     public function PastAuction()
     {
+        date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
         ->leftjoin('users', 'users.id', '=', 'auctions.user_id')
          ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
@@ -57,6 +58,7 @@ class AuctionController extends Controller
     }
     public function UpcomingAuction()
     {
+        date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
          ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
          ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price')
@@ -72,6 +74,7 @@ class AuctionController extends Controller
 
     public function RunningAuction()
     {
+        date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
             ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
             ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price', 'products.front_image')
@@ -82,6 +85,7 @@ class AuctionController extends Controller
         $status = $auctions->count() ? true : false;
         return response()->json([   
             'data'   => $auctions,
+            'now' => date("Y-m-d H:i:s"),
             'status' => $status,
         ]);
     }
