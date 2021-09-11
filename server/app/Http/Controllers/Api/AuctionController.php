@@ -73,11 +73,11 @@ class AuctionController extends Controller
     public function RunningAuction()
     {
         $auctions = DB::table('auctions')
-         ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
-         ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price')
-        ->where('close_time', '>=', Carbon::now())
-        ->where('start_time', '<=', Carbon::now())
-        ->get();
+            ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
+            ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price', 'products.front_image')
+            ->where('close_time', '>=', Carbon::now())
+            ->where('start_time', '<=', Carbon::now())
+            ->get();
         
         $status = $auctions->count() ? true : false;
         return response()->json([   

@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::resource('/products', ProductController::class);
         Route::resource('/auction', AuctionController::class);
         Route::get('auction-data/past', [AuctionController::class, 'PastAuction']);
-        Route::get('auction-data/running', [AuctionController::class, 'RunningAuction']);
+        
         Route::get('auction-data/upcoming', [AuctionController::class, 'UpcomingAuction']);
         Route::get('auction-data/past/{id}', [AuctionController::class, 'updateAuctionStatus']);
         Route::get('auction-data/details/{id}', [AuctionController::class, 'getauctiondetails']);
@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     });
     Route::get('/bidders/{id}', [UserController::class, 'getBidder']);
     Route::put('/bidders/{id}', [UserController::class, 'updateBidder']);
+    
     //bidder routes
     Route::group(['prefix' => 'bidder', 'middleware' => 'is_bidder'], function ()
     {
@@ -54,3 +55,5 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('products/{id}', [UserController::class, 'getUserProducts']);
     });
 });
+
+Route::get('auction-data/running', [AuctionController::class, 'RunningAuction']);

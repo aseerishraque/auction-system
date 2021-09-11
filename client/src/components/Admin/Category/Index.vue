@@ -52,7 +52,8 @@
                     </tbody>
                 </table>
             </div>
-            <Pagination 
+            <Pagination
+                v-if="renderComponent"
                 @set-active-page="setActivePage"
                 :total="pagination.total"
                 :pageCount="pagination.dataCount"
@@ -117,78 +118,114 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import Pagination from '../../Pagination.vue';
-import { ref, nextTick  } from "vue";
+import { ref  } from "vue";
 import moment from 'moment';
 import CategoryService from "../../../services/CategoryService";                 
-const pagination = {
-    dataCount: 5,
-    activePage:1,
-    total:0
-};
+export default {
+    components:{
+        Pagination
+    },
+    async setup(){
 
 
+        const response = ref(await CategoryService.index());
+        const is_loading = ref(false);
+        const isUpdated = ref(false);
+        const errors = ref(null);
+        async function updateCategory() {
+            is_loading.value = true;
+            CategoryService.update(form_data.value.id, form_data.value)
+            .then((updateCategoryResponse) => {
+                isUpdated.value = updateCategoryResponse.status;
+                closeModal();
+            })
+            .catch((updateCategoryError) => {
+                errors.value = updateCategoryError.response.data;
+                isUpdated.value = false;
+                is_loading.value = false;
+            });
+        }
+        //modal functions
+        const form_data = ref({});
+        const is_modal_open = ref(false);
+        // function openModel(index) {
+        //     console.log('Ok Open::', categories);
+        //     form_data.value = this.categories[index];
+        //     is_modal_open.value = true;
+        //     errors.value = null;
+        // }
+        function closeModal() {
+            form_data.value = {};
+            is_modal_open.value = false;
+            errors.value = null;
+            is_loading.value = false;
+        }
+        return {
+            // openModel,
+            closeModal,
+            form_data,
+            is_modal_open,
+            updateCategory,
+            isUpdated,
+            response,
+            is_loading,
+            errors
+        }
+    },
+    data() {
+        return {
+            pagination: {
+                dataCount: 5,
+                activePage:1,
+                total:0
+            },
+            renderComponent:true,
+            categories:[],
+            categories_data:[],
+            moment: moment
+        }
+    },
+    created() {
+        this.initialize();
+    },
+    methods: {
+        openModel(index) {
+            // console.log('Ok Open::', this.categories);
+            this.form_data = this.categories[index];
+            this.is_modal_open = true;
+            this.errors = null;
+        },
+        initialize(){
+            this.categories_data = this.response.data.categories;
+            this.pagination.total = this.categories_data.length;
+            this.paginateItems();
+            // console.log(this.categories[0]);
+        },
+        forceRerender() {
+            // Remove my-component from the DOM
+            this.renderComponent = false;
 
-const response = ref(await CategoryService.index());
-const categories_data = response.value.data.categories;
-let categories = paginateItems();
-pagination.total = categories_data.length;
-const is_loading = ref(false);
-const isUpdated = ref(false);
-const errors = ref(null);
-let renderComponent = true;
-function setActivePage(payload){
-    console.log('Setting Active Page:', payload);
-    pagination.activePage = payload.page;
-    categories = paginateItems();
-    console.log(categories);
-    forceRerender();
-}
-function paginateItems(){
-        const start = (pagination.activePage-1)*pagination.dataCount;
-        const paginatedItems = categories_data.slice(start, start+pagination.dataCount);
-        // console.log(paginatedItems);
-        // categories = categories_data.slice(start, start+pagination.dataCount);
-        return paginatedItems;
-}
-function forceRerender() {
-    // Remove my-component from the DOM
-    renderComponent = false;
+            // If you like promises better you can
+            // also use nextTick this way
+            this.$nextTick().then(() => {
+            // Add the component back in
+            this.renderComponent = true;
+            });
+        },
+        paginateItems(){
+            const start = (this.pagination.activePage-1)*this.pagination.dataCount;
+            this.categories = this.categories_data.slice(start, start+this.pagination.dataCount);
+        },
+        setActivePage(payload){
+            // console.log('Setting Active Page:', payload);
+            this.pagination.activePage = payload.page;
+            this.paginateItems();
+            // this.forceRerender();
+        }
 
-    // If you like promises better you can
-    // also use nextTick this way
-    nextTick().then(() => {
-    // Add the component back in
-    renderComponent = true;
-    });
-}
-async function updateCategory() {
-    is_loading.value = true;
-    CategoryService.update(form_data.value.id, form_data.value)
-    .then((updateCategoryResponse) => {
-        isUpdated.value = updateCategoryResponse.status;
-        closeModal();
-    })
-    .catch((updateCategoryError) => {
-        errors.value = updateCategoryError.response.data;
-        isUpdated.value = false;
-        is_loading.value = false;
-    });
-}
-//modal functions
-const form_data = ref({});
-const is_modal_open = ref(false);
-function openModel(index) {
-    form_data.value = categories[index];
-    is_modal_open.value = true;
-    errors.value = null;
-}
-function closeModal() {
-    form_data.value = {};
-    is_modal_open.value = false;
-    errors.value = null;
-    is_loading.value = false;
+    },
 }
 
 

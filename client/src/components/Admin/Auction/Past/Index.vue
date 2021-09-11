@@ -135,40 +135,102 @@
                         </tr>
                     </tbody>
                 </table>
+            <Pagination
+                v-if="renderComponent"
+                @set-active-page="setActivePage"
+                :total="pagination.total"
+                :pageCount="pagination.dataCount"
+                :activePage="pagination.activePage"
+            />
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
+<script>
 import { ref } from "vue";
 import moment from 'moment';
 import AuctionService from "../../../../services/AuctionService";
 import ProductService from "../../../../services/ProductService";
 import CategoryService from "../../../../services/CategoryService";
-const auctionresponse = ref(await AuctionService.getPastAuction());
-const auctions = auctionresponse.value.data.data;
-const result = auctionresponse.value.data.result;
-const productresponse=ref(await ProductService.getProduct());
-const products = productresponse.value.data.data;
-const categoryresponse=ref(await CategoryService.index());
-const categories = categoryresponse.value.data.data;
-const is_loading = ref(false);
-const isUpdated = ref(false);
-const errors = ref(null);
-const form_data = ref({});
-async function updateAuctionStatus(index) {
-    form_data.value = auctions[index];
-    AuctionService.updateAuctionStatus(form_data.value.id)
-    .then((updateauctionResponse) => {
-        errors.value = null;
-        isUpdated.value = updateauctionResponse.status;
-        console.log(isUpdated.value.status)
-        window.location.reload();
-    })
-    .catch((updateAuctionError) => {
-        errors.value = updateAuctionError.response.data;
-        isUpdated.value = false;
-    });
+import Pagination from '../../../Pagination.vue';
+export default {
+    components:{
+        Pagination
+    },
+    async setup(){
+        
+        const auctionresponse = ref(await AuctionService.getPastAuction());
+        // const auctions = auctionresponse.value.data.data;
+        const result = auctionresponse.value.data.result;
+        const productresponse=ref(await ProductService.getProduct());
+        const products = productresponse.value.data.data;
+        const categoryresponse=ref(await CategoryService.index());
+        const categories = categoryresponse.value.data.data;
+        const is_loading = ref(false);
+        const isUpdated = ref(false);
+        const errors = ref(null);
+        const form_data = ref({});
+        return {
+            auctionresponse,
+            result,
+            productresponse,
+            products,
+            categoryresponse,
+            categories,
+            is_loading,
+            isUpdated,
+            errors,
+            form_data
+        }
+    },
+    data() {
+        return {
+            auctions_data:[],
+            auctions:[],
+            pagination: {
+                dataCount: 1,
+                activePage:1,
+                total:0
+            },
+            renderComponent:true,
+            moment: moment
+        }
+    },
+    created() {
+        this.initialize();
+    },
+    methods: {
+        updateAuctionStatus(index) {
+            this.form_data = this.auctions[index];
+            AuctionService.updateAuctionStatus(this.form_data.id)
+            .then((updateauctionResponse) => {
+                this.errors = null;
+                this.isUpdated = updateauctionResponse.status;
+                console.log(this.isUpdated.status)
+                window.location.reload();
+            })
+            .catch((updateAuctionError) => {
+                this.errors = updateAuctionError.response.data;
+                this.isUpdated = false;
+            });
+        },
+        initialize(){
+            // console.log(this.auctionresponse.data.data);
+            this.auctions_data = this.auctionresponse.data.data;
+            this.pagination.total = this.auctions_data.length;
+            this.paginateItems();
+            // console.log(this.categories[0]);
+        },
+        paginateItems(){
+            const start = (this.pagination.activePage-1)*this.pagination.dataCount;
+            this.auctions = this.auctions_data.slice(start, start+this.pagination.dataCount);
+        },
+        setActivePage(payload){
+            // console.log('Setting Active Page:', payload);
+            this.pagination.activePage = payload.page;
+            this.paginateItems();
+        }
+    },
 }
 </script>

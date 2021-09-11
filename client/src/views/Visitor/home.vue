@@ -95,9 +95,10 @@
 <!-- Featured Section Start -->
     <h1 class="text-3xl mt-10">Featured Section</h1>
     <div class="grid grid-cols-3 gap-3">
-      <AuctionItem expiryDate="2021-09-25 23:55:15"/>
-      <AuctionItem expiryDate="2021-09-15"/>
-      <AuctionItem expiryDate="2021-09-12"/>
+      <AuctionItem v-for="(runningAuction, index) in runningAuctions" :key="index" 
+        :expiryDate="runningAuction.close_time"
+        :auction="auction"
+        />
     </div>
 <!-- Featured Section END -->
 <!-- Footer Start -->
@@ -136,10 +137,33 @@
 </template>
 <script>
 import AuctionItem from '../../components/Visitor/AuctionItem.vue';
+import AuctionService from '../../services/AuctionService';
 export default {
     components:{
         AuctionItem
-    }
+    },
+    data() {
+        return {
+            runningAuctions_data:[],
+            runningAuctions:[],
+        }
+    },
+    created() {
+        this.initialize();
+    },
+    methods: {
+        initialize(){
+            AuctionService.getRunningAuction()
+            .then(res=>{
+                this.runningAuctions_data = res.data.data;
+                this.runningAuctions = {...this.runningAuctions_data};
+                console.log(this.runningAuctions_data[0]);
+            })
+            .catch(error=>{
+                console.log(error);
+            });
+        }
+    },
 }
 </script>
 

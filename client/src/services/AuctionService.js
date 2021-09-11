@@ -25,7 +25,7 @@ export default {
         return Api().get('admin/auction-data/past/' + id);
     },
     getRunningAuction() {
-        return Api().get('admin/auction-data/running');
+        return Api().get('auction-data/running');
     },
     getUpcomingAuction() {
         return Api().get('admin/auction-data/upcoming');

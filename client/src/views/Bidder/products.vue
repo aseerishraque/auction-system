@@ -27,14 +27,13 @@
             </tr>
             </tbody>
         </table>
-        <div class="btn-group float-right">
-            <button class="btn">Previous</button> 
-            <button class="btn">1</button> 
-            <button class="btn btn-active">2</button> 
-            <button class="btn">3</button> 
-            <button class="btn">4</button> 
-            <button class="btn">Next</button>
-        </div>
+  <Pagination
+      v-if="renderComponent"
+      @set-active-page="setActivePage"
+      :total="pagination.total"
+      :pageCount="pagination.dataCount"
+      :activePage="pagination.activePage"
+    />
     </div>
         
 </div>
@@ -42,13 +41,23 @@
 <script>
 import BidderService from '../../services/BidderService';
 import { useRouter } from "vue-router";
-
+import Pagination from '../../components/Pagination.vue';
 export default {
+    components:{
+      Pagination
+    },
     data() {
         return {
             errors: null,
+            products_data:[],
             products:[],
-            userId: Store.state.currentUser.id
+            userId: Store.state.currentUser.id,
+            pagination: {
+                dataCount: 5,
+                activePage:1,
+                total:0
+            },
+            renderComponent:true
         }
     },
     created() {
@@ -65,7 +74,10 @@ export default {
         initialize(){
             BidderService.getUserProducts(this.userId)
             .then(res=>{
-                this.products = res.data.products;
+                this.products_data = res.data.products;
+                this.pagination.total = this.products_data.length;
+                this.paginateItems();
+                this.forceRerender();
             })
             .catch(error => {
 					let data = error.response.data
@@ -78,6 +90,26 @@ export default {
 					}
 					
 				});
+        },
+        forceRerender() {
+          // Remove my-component from the DOM
+          this.renderComponent = false;
+
+          // If you like promises better you can
+          // also use nextTick this way
+          this.$nextTick().then(() => {
+            // Add the component back in
+            this.renderComponent = true;
+          });
+        },
+        paginateItems(){
+          const start = (this.pagination.activePage-1)*this.pagination.dataCount;
+          this.products = this.products_data.slice(start, start+this.pagination.dataCount);
+        },
+        setActivePage(payload){
+          // console.log('Setting Active Page:', payload);
+          this.pagination.activePage = payload.page;
+          this.paginateItems();
         }
     },
 }

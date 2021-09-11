@@ -102,6 +102,13 @@
                         </tr>
                     </tbody>
                 </table>
+            <Pagination
+                v-if="renderComponent"
+                @set-active-page="setActivePage"
+                :total="pagination.total"
+                :pageCount="pagination.dataCount"
+                :activePage="pagination.activePage"
+            />
             </div>
             <div v-if="is_modal_open" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
                 <div v-if="is_modal_open" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
@@ -201,12 +208,18 @@ import moment from 'moment';
 import ProductService from "../../../../services/ProductService";
 import AuctionService from "../../../../services/AuctionService";
 import CategoryService from "../../../../services/CategoryService";
+import Pagination from '../../../Pagination.vue';
+
 export default {
+        components:{
+            Pagination
+        },
         data(){
             return {
                 products:[],
                 categories:[],
                 auctions:[],
+                auctions_data:[],
                 form_data:{},
                 errors:null,
                 message:'',
@@ -214,7 +227,14 @@ export default {
                 is_loading:false,
                 is_saved:null,
                 is_modal_open:false,
-                isUpdated:false
+                isUpdated:false,
+                pagination: {
+                    dataCount: 5,
+                    activePage:1,
+                    total:0
+                },
+                renderComponent:true,
+                moment: moment
             }
         },
         created(){
@@ -277,11 +297,34 @@ export default {
                     this.errors=error.response.data;
                 });
             },
+            paginateItems(){
+            const start = (this.pagination.activePage-1)*this.pagination.dataCount;
+            this.auctions = this.auctions_data.slice(start, start+this.pagination.dataCount);
+            },
+            setActivePage(payload){
+                // console.log('Setting Active Page:', payload);
+                this.pagination.activePage = payload.page;
+                this.paginateItems();
+            },
+            forceRerender() {
+                // Remove my-component from the DOM
+                this.renderComponent = false;
+
+                // If you like promises better you can
+                // also use nextTick this way
+                this.$nextTick().then(() => {
+                    // Add the component back in
+                    this.renderComponent = true;
+                });
+            },
             getauctions()
             {
                     AuctionService.getUpcomingAuction()
                 .then(response => {
-                    this.auctions = response.data.data;
+                    this.auctions_data = response.data.data;
+                    this.pagination.total = this.auctions_data.length;
+                    this.paginateItems();
+                    this.forceRerender();
                    // console.log(this.products)	
                 }).catch(error => {
                     this.errors=error.response.data;
