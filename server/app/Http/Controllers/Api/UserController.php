@@ -160,6 +160,46 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function bidProduct(Request $request)
+    {
+        $obj = new Bid();
+        $obj->user_id = $request->user_id;
+        $obj->auction_id = $request->auction_id;
+        $obj->bidding_price = $request->bidding_price;
+        $obj->bidding_date = $request->bidding_date;
+        if($obj->save())
+        {
+            return response()->json([
+                'status' => true,
+                'message' => 'Bid placed Successfully'
+            ], 201);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Bid place error'
+            ], 201);
+        }
+    }
+
+    public function deposit(Request $request)
+    {
+        $obj = new User();
+        $obj = $obj->find($request->user_id);
+        $obj->deposit = $obj->deposit + $request->deposit;
+        if($obj->save())
+        {
+            return response()->json([
+                'status' => true,
+                'message' => 'Deposit Added Successfully'
+            ], 201);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Deposit Add error'
+            ], 201);
+        }
+    }
+
     public function getBidders(){
         $users = User::where('role', 'bidder')->get();
         return response()->json([

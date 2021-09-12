@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::group(['prefix' => 'bidder', 'middleware' => 'is_bidder'], function ()
     {
         Route::get('bids/{id}', [UserController::class, 'getUserBids']);
+        Route::post('bid', [UserController::class, 'bidProduct']);
+        Route::post('deposit', [UserController::class, 'deposit']);
         Route::get('products/{id}', [UserController::class, 'getUserProducts']);
     });
 });

@@ -19,6 +19,15 @@ export default {
     getUserBids(id){
         return Api().get('bidder/bids/' + id);
     },
+
+    bidProduct(data){
+        return Api().post('bidder/bid/', data);
+    },
+
+    deposit(data){
+        return Api().post('bidder/deposit/', data);
+    },
+
     getUserProducts(id){
         return Api().get('bidder/products/' + id);
     },

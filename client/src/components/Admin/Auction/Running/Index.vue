@@ -40,7 +40,7 @@
                                 <div class="flex items-center text-sm">
                                     <div>
                                         <p class="font-semibold">
-                                            {{ auction.start_time ? moment(auction.start_time).format('MMMM Do YYYY') : "N/A" }}
+                                            {{ auction.start_time ? auction.start_time : "N/A" }}
                                         </p>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                 <div class="flex items-center text-sm">
                                     <div>
                                         <p class="font-semibold">
-                                            {{ auction.close_time ? moment(auction.close_time).format('MMMM Do YYYY') : "N/A" }}
+                                            {{ auction.close_time ? auction.close_time : "N/A" }}
                                         </p>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                                 <div class="flex items-center text-sm">
                                     <div>
                                         <p class="font-semibold">
-                                            {{ auction.result_time ? moment(auction.result_time).format('MMMM Do YYYY') : "N/A" }}
+                                            {{ auction.result_time ? auction.result_time : "N/A" }}
                                         </p>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div class="flex items-center text-sm">
                                     <div>
                                         <p class="font-semibold">
-                                            {{ auction.paying_time ? moment(auction.paying_time).format('MMMM Do YYYY') : "N/A" }}
+                                            {{ auction.paying_time ? auction.paying_time : "N/A" }}
                                         </p>
                                     </div>
                                 </div>
@@ -98,7 +98,6 @@
 
 <script>
 import { ref } from "vue";
-import moment from 'moment';
 import AuctionService from "../../../../services/AuctionService";
 import ProductService from "../../../../services/ProductService";
 import CategoryService from "../../../../services/CategoryService";
@@ -117,8 +116,7 @@ export default {
                 activePage:1,
                 total:0
             },
-            renderComponent:true,
-            moment: moment
+            renderComponent:true
         }
     },
     async setup() {
