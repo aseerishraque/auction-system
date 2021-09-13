@@ -162,23 +162,34 @@ class UserController extends Controller
 
     public function bidProduct(Request $request)
     {
-        $obj = new Bid();
-        $obj->user_id = $request->user_id;
-        $obj->auction_id = $request->auction_id;
-        $obj->bidding_price = $request->bidding_price;
-        $obj->bidding_date = $request->bidding_date;
-        if($obj->save())
+        $user = User::find($request->user_id);
+        if($user->deposit >= $request->bidding_price)
         {
-            return response()->json([
-                'status' => true,
-                'message' => 'Bid placed Successfully'
-            ], 201);
+            $obj = new Bid();
+            $obj->user_id = $request->user_id;
+            $obj->auction_id = $request->auction_id;
+            $obj->bidding_price = $request->bidding_price;
+            $obj->bidding_date = $request->bidding_date;
+            // $obj->bidding_date = '11-11-21';
+            if($obj->save())
+            {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Bid placed Successfully'
+                ], 201);
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Bid place error'
+                ], 201);
+            }
         }else{
             return response()->json([
                 'status' => false,
-                'message' => 'Bid place error'
+                'message' => 'Insufficient Funds!'
             ], 201);
         }
+        
     }
 
     public function deposit(Request $request)

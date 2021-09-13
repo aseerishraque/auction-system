@@ -114,32 +114,42 @@
         </div>  
         <div class="grid grid-cols-2 gap-2 h-3/5">
             <div class="card text-center shadow-xl h-72 text-center">
-            <figure class="px-10 pt-10 object-contain h-48 w-full">
-                <img :src="user.nid_front_img" class="rounded-xl object-contain h-32 w-full">
-            </figure> 
-            <div class="card-body">
-                <h2 class="card-title">NID Front</h2>
-            </div>
+                <figure class="px-10 pt-10 object-contain h-48 w-full">
+                    <img :src="user.nid_front_img" class="rounded-xl object-contain h-32 w-full">
+                </figure> 
+                <div class="card-body">
+                    <h2 class="card-title">NID Front</h2>
+                </div>
             </div> 
             <div class="card text-center shadow-xl h-72">
-            <figure class="px-10 pt-10 object-contain h-48 w-full">
-                <img :src="user.nid_back_img" class="rounded-xl object-contain h-32 w-full">
-            </figure> 
-            <div class="card-body">
-                <h2 class="card-title">NID Back</h2>
-            </div>
+                <figure class="px-10 pt-10 object-contain h-48 w-full">
+                    <img :src="user.nid_back_img" class="rounded-xl object-contain h-32 w-full">
+                </figure> 
+                <div class="card-body">
+                    <h2 class="card-title">NID Back</h2>
+                </div>
             </div> 
-                <div class="card text-center shadow-xl h-72">
-                    <!-- <div class="w-10 h-10 border"> -->
-                    <figure class="px-10 pt-10 ">
-                        <img :src="user.vat_img" class="rounded-xl object-contain h-32 w-full">
-                    </figure>
-                    <!-- </div> -->
-                
-            <div class="card-body">
-                <h2 class="card-title">Vat</h2>
-                
+            <div class="card text-center shadow-xl h-72">
+                <div class="card-body">
+                    <h2 class="card-title">Deposit</h2>
+                    <div class="form-control">
+                    <input v-model="deposit" type="number" placeholder="Add Money" class="input input-bordered">
+                    <button @click="addMoney" :class="btn_loading ? 'btn mt-5 loading' : 'btn mt-5'">Add Money</button> 
+                    <div v-if="success" class="alert alert-success mt-5">
+                    <div class="flex-1">
+                        <label>Deposit Success!</label>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
+            <div class="card text-center shadow-xl h-72">
+                <figure class="px-10 pt-10 ">
+                    <img :src="user.vat_img" class="rounded-xl object-contain h-32 w-full">
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title">Vat</h2>
+                </div>
             </div> 
         </div>
     </div>
@@ -181,6 +191,9 @@ export default {
             },
             msg:'',
             path: '',
+            deposit:0,
+            success: false,
+            btn_loading:false,
         }
     },
     created() {
@@ -195,6 +208,36 @@ export default {
         this.getBidder(this.userId);
     },
     methods: {
+            viewCompanyFields(){
+                if(this.user.account_type === 'company'){
+                    this.loginType = true;
+                }else{
+                    this.loginType = false;
+                }
+            },
+            addMoney(){
+                this.btn_loading = true;
+                BidderService.deposit({
+                    user_id: this.userId,
+                    deposit: this.deposit
+                })
+                .then(()=>{
+                    this.deposit = 0;
+                    this.success = true;
+                    this.btn_loading = false;
+                })
+                .catch(error => {
+					let data = error.response.data
+                    for (let key in data.errors) {
+						this.errors[key] = []
+						let errorMessage = data.errors[key]
+						if (errorMessage){
+							this.errors[key] = errorMessage
+						}
+					}
+					
+				})
+            },
             setImagePath(){
                 if(this.user.nid_front_img !== null){
                     this.user.nid_front_img = this.path + "/" + this.user.nid_front_img;
@@ -277,6 +320,7 @@ export default {
                 .then(res=>{
                     this.user = res.data.bidder;
                     this.setImagePath();
+                    this.viewCompanyFields();
                 })
                 .catch(error => {
 					let data = error.response.data

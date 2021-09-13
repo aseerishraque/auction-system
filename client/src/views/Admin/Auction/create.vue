@@ -148,6 +148,14 @@ export default {
                  product_id:'',
                  category_id:''
                 },
+                default_form_data:{
+                 start_time:'',
+                 close_time:'',
+                 result_time:'',
+                 paying_time:'',
+                 product_id:'',
+                 category_id:''
+                },
                 categoryid:'',
                 is_loading:false,
                 is_saved:null
@@ -158,6 +166,11 @@ export default {
              
 	    },
         methods: {
+            resetFormData(){
+                this.$nextTick(() => {
+                this.form_data = Object.assign({}, this.default_form_data)
+              });
+            },
             storeAuction(form_data){
                   this.is_loading=true
                 AuctionService.storeAuction(form_data)
@@ -165,6 +178,7 @@ export default {
                     this.is_saved = response.data.status;
                     this.is_loading=false
                     this.message = response.data.message;
+                    this.resetFormData();
                 })
                 
                 .catch(error => {

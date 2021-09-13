@@ -21,7 +21,7 @@ export default {
     },
 
     bidProduct(data){
-        return Api().post('bidder/bid/', data);
+        return Api().post('bidder/bid', data);
     },
 
     deposit(data){

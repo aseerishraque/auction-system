@@ -47,17 +47,23 @@
                  <input type="text" placeholder="Bid" class="input input-bordered">
                 </div>  -->
                 <div class="card-actions mt-10">
-                    <input :disabled="!is_logged_in" type="number" placeholder="00.0" class="input input-bordered">
-                <button :disabled="!is_logged_in" class="ml-10 btn btn-primary">Bid</button> 
+                    <input v-model="bid.bidding_price" :disabled="!is_logged_in" type="number" placeholder="00.0" class="input input-bordered">
+                <button @click="bidProduct" :disabled="!is_logged_in" :class="btn_loading ? 'ml-10 btn btn-primary loading': 'ml-10 btn btn-primary'">Bid</button> 
                 <!-- <button class="btn btn-ghost">More info</button> -->
                 </div>
-                <div v-if="!is_logged_in" class="alert alert-warning mt-10">
+                <div v-if="errorAlert" class="alert alert-warning mt-10">
                     <div class="flex-1">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current"> 
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>                         
                         </svg> 
-                        <label>Please Sign In to Bid!</label>
+                        <label> {{ msg }} </label>
                     </div>
+                </div>
+                <div v-if="successAlert" class="alert alert-success mt-10">
+                <div class="flex-1">
+                    <i class="fas fa-check w-6 h-6 mx-2 stroke-current"></i>
+                    <label> {{ msg }} </label>
+                </div>
                 </div>
             </div>
         </div>
@@ -68,8 +74,13 @@
 <script>
 import NavBar from '../../components/Visitor/Navbar.vue';
 import AuctionService from '../../services/AuctionService';
+import BidderService from '../../services/BidderService';
 import CountDown from '../../components/Visitor/CountDown.vue';
 import env from '../../config/env';
+let datetime = new Date();
+datetime.setSeconds(datetime.getSeconds() + 600);
+datetime = datetime.toISOString();
+
 export default {
     components:{
         NavBar,
@@ -83,20 +94,53 @@ export default {
                 back_image: '/images/pre-upload.png',
                 left_image: '/images/pre-upload.png',
                 right_image: '/images/pre-upload.png',
+                close_time: datetime
             },
             auctionid: this.$route.params.id,
             renderComponent:true,
-            is_logged_in: false
+            is_logged_in: false,
+            btn_loading:false,
+            successAlert:false,
+            errorAlert:false,
+            msg:'',
+            bid:{
+                user_id:null,
+                bidding_price:0,
+                auction_id: null,
+                bidding_date:''
+            }
         }
     },
     created() {
-        
         if(Store.state.currentUser !== null){
             this.is_logged_in = true;
+        }else{
+            this.errorAlert = true;
+            this.msg = "Please Sign In to Bid!";
         }
         this.getauctiondetails();
     },
     methods: {
+        bidProduct(){
+            this.btn_loading = true;
+            BidderService.bidProduct(this.bid)
+            .then(res=>{
+                if(res.data.status){
+                    this.errorAlert = false;
+                    this.successAlert = true;
+                }else{
+                    this.errorAlert = true;
+                    this.successAlert = false;
+                }
+                this.msg = res.data.message;
+                this.btn_loading = false;
+                this.bid.bidding_price = 0;
+                
+            })
+            .catch(response => {
+                this.errors=response.error.data;
+            });
+        },
         getauctiondetails()
         {
         AuctionService.getauctiondetails(this.auctionid)
@@ -123,6 +167,9 @@ export default {
                     }else{
                         this.auction.right_image = '/images/pre-upload.png';
                     }
+                    this.bid.user_id = Store.state.currentUser.id;
+                    this.bid.auction_id = this.auction.id;
+                    this.bid.bidding_date = new Date().toISOString().split('T')[0];
                     this.forceRerender();
                     // console.log(this.auction.front_image)	
                 }).catch(response => {

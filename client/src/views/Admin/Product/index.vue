@@ -1,5 +1,5 @@
 <template>
-<div class="w-3/5">
+<!-- <div class="w-3/5"> -->
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Products </h2>
 <!-- <div class="bg-gray-500 pt-3">
                 <div class="rounded-tl-4xl bg-gradient-to-r from-blue-400 to-gray-400 p-4 shadow text-2xl text-white">
@@ -297,7 +297,7 @@
                 </div>
             </div>
         </div>
-</div>
+<!-- </div> -->
 </template>
 
 <script>

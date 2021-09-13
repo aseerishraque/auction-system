@@ -116,7 +116,7 @@
                                         <!-- <div>
                                             <img v-if="this.form_data.front_image" :src="this.form_data.front_image" />
                                         </div> -->
-                                        <input type="file" required @change="onImageChange"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
+                                        <input ref="front_image" type="file" required @change="onImageChange"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
@@ -125,7 +125,7 @@
                                         <!-- <div>
                                             <img v-if="this.form_data.back_image" :src="this.form_data.back_image" />
                                         </div> -->
-                                        <input type="file" required v-on:change="onImageChange1"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
+                                        <input ref="back_image" type="file" required v-on:change="onImageChange1"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
@@ -135,7 +135,7 @@
                                             <img v-if="this.form_data.left_image" :src="this.form_data.left_image" />
                                         </div> -->
                                        
-                                        <input type="file" required v-on:change="onImageChange2"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
+                                        <input ref="left_image" type="file" required v-on:change="onImageChange2"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
@@ -145,7 +145,7 @@
                                             <img v-if="this.form_data.right_image" :src="this.form_data.right_image" />
                                         </div> -->
                                          
-                                        <input type="file" required v-on:change="onImageChange3"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
+                                        <input ref="right_image" type="file" required v-on:change="onImageChange3"  class=" block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Image"/>
                                     </label>
                                 </div>
                                 <div class="w-full flex items-center gap-4">
@@ -233,6 +233,23 @@ export default {
                  right_image:"",
                  is_sold:'0'
                 },
+                default_form_data:{
+                 sku:"",
+                 product_name:"",
+                 expected_value:0,
+                 base_price:0,
+                 percentage:"",
+                 grade:"",
+                 model_no:"",
+                 specification:"",
+                 description:"",
+                 category_id:"",
+                 front_image:"",
+                 back_image:"",
+                 left_image:"",
+                 right_image:"",
+                 is_sold:'0'
+                },
                 is_loading:false,
                 is_saved:null
             }
@@ -246,18 +263,27 @@ export default {
 			});
 	    },
         methods: {
+            resetFormData(){
+                this.$nextTick(() => {
+                this.form_data = Object.assign({}, this.default_form_data);
+                this.$refs.front_image.value=null;
+                this.$refs.back_image.value=null;
+                this.$refs.left_image.value=null;
+                this.$refs.right_image.value=null;
+              });
+            },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;
-                console.log(this.createImage(files[0]));
+                // console.log(this.createImage(files[0]));
             },
             createImage(file) {
                 let reader = new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
                     vm.form_data.front_image = e.target.result;
-                    console.log(this.front_image)
+                    // console.log(this.front_image)
                 };
                 reader.readAsDataURL(file);
             },
@@ -300,7 +326,7 @@ export default {
                 let vm = this;
                 reader.onload = (e) => {
                     vm.form_data.right_image = e.target.result;
-                    console.log(this.right_image)
+                    // console.log(this.right_image)
                 };
                 reader.readAsDataURL(file);
             },
@@ -309,7 +335,8 @@ export default {
                 ProductService.storeProduct(form_data)
                 .then(response => {
                     this.is_saved = response.data.status;
-                    this.is_loading=false
+                    this.is_loading=false;
+                    this.resetFormData();
                 })
                 
                 .catch(error => {
