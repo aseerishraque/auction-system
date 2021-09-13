@@ -35,13 +35,54 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>             
             </svg>
             </button> -->
-            <router-link :to="{name: 'auth.register'}">
+            <router-link v-if="is_logged_in" :to="{name: homeRoute}">
+                <button class="btn btn-info rounded-md mr-10 text-white">Dashboard</button> 
+            </router-link>
+            <router-link v-if="!is_logged_in" :to="{name: 'auth.register'}">
                 <button class="btn btn-info rounded-md mr-5 text-white">Sign Up</button> 
             </router-link>
-            <router-link :to="{name: 'auth.login'}">
+            <router-link v-if="!is_logged_in" :to="{name: 'auth.login'}">
                 <button class="btn btn-info rounded-md mr-10 text-white">Login</button> 
             </router-link>
+            <button @click.prevent="logout" v-else class="btn btn-accent rounded-md mr-10 text-white">Log Out</button> 
+            
         </div>
     </div>
 </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            is_logged_in:false,
+            homeRoute: ''
+        }
+    },
+    created() {
+        if(Store.state.currentUser !== null)
+        {
+            this.is_logged_in = true;
+            if(Store.state.currentUser.role === 'admin')
+            {
+                this.homeRoute = 'admin.home';
+            }else{
+                this.homeRoute = 'bidder.home';
+            }
+        }else{
+            this.is_logged_in = false;
+        }
+    },
+    methods: {
+        logout() {
+            Store
+                .dispatch("logout")
+                .then(() => {
+                    this.$router.push({name: 'auth.login'});
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        }
+    },
+}
+</script>

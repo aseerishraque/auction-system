@@ -118,6 +118,11 @@ export default {
             this.errorAlert = true;
             this.msg = "Please Sign In to Bid!";
         }
+        if(Store.state.currentUser.role !== 'bidder'){
+            this.is_logged_in = false;
+            this.errorAlert = true;
+            this.msg = "Admin cannot Bid!";
+        }
         this.getauctiondetails();
     },
     methods: {

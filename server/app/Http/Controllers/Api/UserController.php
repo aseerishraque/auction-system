@@ -163,6 +163,20 @@ class UserController extends Controller
     public function bidProduct(Request $request)
     {
         $user = User::find($request->user_id);
+        if(!isset($user))
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Non-valid User!'
+            ], 201);
+        }
+        if($user->is_approved != 1)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Eligible to Bid!'
+            ], 201);
+        }
         if($user->deposit >= $request->bidding_price)
         {
             $obj = new Bid();
@@ -201,6 +215,7 @@ class UserController extends Controller
         {
             return response()->json([
                 'status' => true,
+                'deposit' => $obj->deposit,
                 'message' => 'Deposit Added Successfully'
             ], 201);
         }else{

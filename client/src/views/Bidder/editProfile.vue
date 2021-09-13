@@ -131,7 +131,8 @@
             </div> 
             <div class="card text-center shadow-xl h-72">
                 <div class="card-body">
-                    <h2 class="card-title">Deposit</h2>
+                    <h2 class="card-title">Balance: {{ user.deposit }}</h2>
+                    <!-- <h2 class="card-title">  </h2> -->
                     <div class="form-control">
                     <input v-model="deposit" type="number" placeholder="Add Money" class="input input-bordered">
                     <button @click="addMoney" :class="btn_loading ? 'btn mt-5 loading' : 'btn mt-5'">Add Money</button> 
@@ -187,7 +188,8 @@ export default {
                 nid_back_img:"/images/pre-upload.png",
                 vat_no:null,
                 vat_img:"/images/pre-upload.png",
-                is_approved:0
+                is_approved:0,
+                deposit:0
             },
             msg:'',
             path: '',
@@ -221,7 +223,8 @@ export default {
                     user_id: this.userId,
                     deposit: this.deposit
                 })
-                .then(()=>{
+                .then((res)=>{
+                    this.user.deposit = res.data.deposit;
                     this.deposit = 0;
                     this.success = true;
                     this.btn_loading = false;

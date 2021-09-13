@@ -20,7 +20,7 @@
                         
 						<ul class="flex items-center flex-shrink-0 space-x-6">
 							<!-- Theme toggler -->
-							<li class="flex">
+							<!-- <li class="flex">
 								<button @click="dark = !dark" class="rounded-md focus:outline-none focus:shadow-outline-purple" aria-label="Toggle color mode">
 									<template v-if="!dark">
 										<svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -33,7 +33,7 @@
 										</svg>
 									</template>
 								</button>
-							</li>
+							</li> -->
 							<!-- Profile menu -->
 							<li class="relative" @click="isProfileMenuOpen = !isProfileMenuOpen" ref="profileMenu">
 								<button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none" aria-label="Account" aria-haspopup="true">
