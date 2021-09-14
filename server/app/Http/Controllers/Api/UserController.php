@@ -149,6 +149,33 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function getHomeItems($id){
+        $bids = Bid::join('auctions', 'auctions.id', 'bids.auction_id')
+                    ->join('products', 'products.id', 'auctions.product_id')
+                    ->where('bids.user_id', $id)
+                    ->select('bids.*', 'products.product_name')
+                    ->get()
+                    ->count();
+        $products = Auction::join('products', 'products.id', 'auctions.product_id')
+                    ->where('auctions.user_id', $id)
+                    ->select('auctions.*', 'products.product_name')
+                    ->get()
+                    ->count();
+        $payables = Auction::join('products', 'products.id', 'auctions.product_id')
+                    ->where('auctions.user_id', $id)
+                    ->select('auctions.*', 'products.product_name')
+                    ->where('auctions.paying_time', '<=', Carbon::now())
+                    ->get()
+                    ->count();
+            
+        return response()->json([
+        'bids' => $bids,
+        'products' => $products,
+        'payables' => $payables,
+        'message' => 'Bidder Home Data Retrieved Successfully',
+        ], 201);
+    }
+
     public function getUserProducts($id){
         $products = Auction::join('products', 'products.id', 'auctions.product_id')
                             ->where('auctions.user_id', $id)
@@ -158,6 +185,42 @@ class UserController extends Controller
         'products'    => $products,
         'message' => 'Users Products Retrieved Successfully',
         ], 201);
+    }
+
+    public function declineProduct(Request $request){
+        $obj = Bid::where('auction_id', $request->auction_id)
+                    ->where('user_id', $request->user_id)
+                    ->orderBy('bidding_price', 'DESC')
+                    ->first();
+        if($obj->delete())
+        {
+            $highest_bid = Bid::where('auction_id', $request->auction_id)
+            ->orderBy('bidding_price', 'DESC')
+            ->first();
+            $obj = new Auction();
+            $obj = $obj->find($request->auction_id);
+            $obj->user_id = $highest_bid->user_id;
+            $obj->winner_bid = $highest_bid->bidding_price;
+            if($obj->save())
+            {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Product Declined!'
+                ], 201);
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Product Decline Error!'
+                ], 201);
+            }
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Bid Delete Error!'
+            ], 201);
+        }
+        
+
     }
 
     public function bidProduct(Request $request)

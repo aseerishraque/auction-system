@@ -114,15 +114,16 @@ export default {
     created() {
         if(Store.state.currentUser !== null){
             this.is_logged_in = true;
+            if(Store.state.currentUser.role !== 'bidder'){
+                this.is_logged_in = false;
+                this.errorAlert = true;
+                this.msg = "Admin cannot Bid!";
+            }
         }else{
             this.errorAlert = true;
             this.msg = "Please Sign In to Bid!";
         }
-        if(Store.state.currentUser.role !== 'bidder'){
-            this.is_logged_in = false;
-            this.errorAlert = true;
-            this.msg = "Admin cannot Bid!";
-        }
+        
         this.getauctiondetails();
     },
     methods: {

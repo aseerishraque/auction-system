@@ -57,6 +57,12 @@
                     </ul>
                 </li>
                 <li v-if="role === 'bidder'">
+                    <router-link :to="{ name: 'bidder.home'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
+                        <i class="fas fa-home"></i>
+                        <span class="ml-4">Dashboard</span>
+                    </router-link>
+                </li>
+                <li v-if="role === 'bidder'">
                     <router-link :to="{ name: 'bidder.profile.edit'}" exact-active-class="font-bold text-black dark:text-gray-100" class="border-b-2 border-fuchsia-600">
                         <i class="fa fa-cogs"></i>
                         <span class="ml-4">Edit Profile</span>

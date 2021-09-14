@@ -32,6 +32,14 @@ export default {
         return Api().get('bidder/products/' + id);
     },
 
+    declineProduct(data){
+        return Api().post('bidder/decline-product', data);
+    },
+    
+    getHomeItems(id){
+        return Api().get('bidder/home-page-data/' + id);
+    },
+
     approveBidder(id, is_approved){
         return Api().get('admin/approvebidder/' + id + '/status/' + is_approved);
     }
