@@ -7,7 +7,8 @@
                 </div>
             </div> -->
     <div class="mb-4 mx-124">
-        <link-button to="admin.product.create" name="Add Product">Add Product</link-button>
+        <link-button class="float-left" to="admin.product.create" name="Add Product">Add Product</link-button>
+         <input @keyup="searchProduct" class="input input-primary input-bordered float-right" type="text" placeholder="Search..." />
     </div>
         <div class="w-full mb-4 overflow-hidden rounded-lg shadow-sm border">
             <div class="w-full overflow-x-auto">
@@ -352,7 +353,19 @@ export default{
     this.left_image_preview = this.path + this.form_data.left_image;
     },
      methods:{
-         deleteProduct(id, index){
+        searchProduct(e){
+            // e.target.value = e.target.value.toLowerCase();
+           var result  = this.products_data.map(a=>{
+               if(a.product_name.toLowerCase().search(e.target.value.toLowerCase()) > 0){
+                   return a;
+               }
+           });
+            console.log(result? result[0] : null);
+            // return result? result[0] : null; // or undefined
+            // this.products = {...result};
+            
+        },
+        deleteProduct(id, index){
             ProductService.deleteProduct(id)
             .then(()=>{
                 this.products.splice(index, 1);

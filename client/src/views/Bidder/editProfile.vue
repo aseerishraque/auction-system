@@ -228,6 +228,7 @@ export default {
                     this.deposit = 0;
                     this.success = true;
                     this.btn_loading = false;
+                    Store.commit('setDeposit', { deposit: res.data.deposit})
                 })
                 .catch(error => {
 					let data = error.response.data

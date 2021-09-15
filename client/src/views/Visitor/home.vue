@@ -53,7 +53,7 @@
     </div>
 <!-- Carousel END -->
 <!-- Featured Section Start -->
-    <h1 class="text-3xl mt-10">Featured Section</h1>
+    <h1 v-if="runningAuctions.length > 0" class="text-3xl mt-10">Running Auctions</h1>
     <div class="grid grid-cols-3 gap-3">
       <AuctionItem v-for="(runningAuction, index) in runningAuctions" :key="index" 
         :expiryDate="runningAuction.close_time"
