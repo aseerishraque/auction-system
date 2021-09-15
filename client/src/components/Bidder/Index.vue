@@ -77,9 +77,15 @@
                 <td>{{ product.product_name }}</td> 
                 <td>{{ product.result_time }}</td> 
                 <td>{{ product.winner_bid }}</td> 
-                <td class="text-center">
-                    <button class="btn btn-primary btn-xs mr-5">Pay Now</button>
-                    <button @click="declineProduct(product.id, idx)" class="btn btn-error btn-xs">Decline</button>
+                <td v-if="product.is_delivered === 1" class="text-center">
+                    <div class="badge badge-success">Delivered</div> 
+                </td>
+                <td v-else-if="is_approved !== 1" class="text-center">
+                    <div class="badge badge-error"> Not Verifed User</div> 
+                </td>
+                <td v-else class="text-center">
+                    <button @click="payNow(product.id, product.winner_bid, idx)" :class="btn_loading ?'btn btn-primary btn-sm mr-5 loading': 'btn btn-primary btn-sm mr-5'">Pay Now</button>
+                    <button @click="declineProduct(product.id, idx)" :class="btn_loading ? 'btn btn-error btn-sm loading': 'btn btn-error btn-sm'">Decline</button>
                 </td>
             </tr>
             </tbody>
@@ -95,21 +101,45 @@ import { ref } from "vue";
 import BidderService from '../../services/BidderService';
 
 const userId = Store.state.currentUser.id;
+const is_approved = Store.state.currentUser.is_approved;
 const homeItemsResponse = ref(await BidderService.getHomeItems(userId));
 const items = homeItemsResponse.value.data;
 const productsResponse = ref(await BidderService.getUserProducts(userId));
 const products = productsResponse.value.data.products;
+let btn_loading = false;
 
 function declineProduct(auction_id, index){
+    btn_loading = true;
     BidderService.declineProduct({
         user_id: userId,
         auction_id: auction_id
     })
     .then(res=>{
         products.splice(index, 1);
+        btn_loading = false;
     })
     .catch(error=>{
         console.log(error);
+        btn_loading = false;
+    });
+}
+
+function payNow(auction_id, winner_bid, index){
+    btn_loading = true;
+    BidderService.payNow({
+        user_id: userId,
+        auction_id: auction_id,
+        winner_bid: winner_bid
+    })
+    .then(res=>{
+        console.log(res);
+        products[index].is_delivered = 1; 
+        Store.commit('setDeposit', { deposit: res.data.deposit})
+        btn_loading = false;
+    })
+    .catch(error=>{
+        console.log(error);
+        btn_loading = false;
     });
 }
 

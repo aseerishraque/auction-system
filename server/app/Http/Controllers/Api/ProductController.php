@@ -116,8 +116,53 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $status = $product->delete() ? true : false;
+        if($status)
+        {
+            return response()->json([
+                'message' => 'Product Delete Success!',
+                'status' => true,
+            ], 201);
+        }else{
+            return response()->json([
+                'message' => 'Product Delete Error!',
+                'status' => false,
+            ], 201);
+        }
+        
     }
+
+    public function deleteProduct($id){
+        // $product = Product::find($id);
+        // return response()->json([
+        //     'message' => $id,
+        //     'status' => false,
+        // ], 201);
+        try{
+            $product = Product::findOrFail($id);
+            $status = $product->delete() ? true : false;
+            if($status)
+            {
+                return response()->json([
+                    'message' => 'Product Delete Success!',
+                    'status' => true,
+                ], 201);
+            }else{
+                return response()->json([
+                    'message' => 'Product Delete Error!',
+                    'status' => false,
+                ], 201);
+            }
+        }catch(Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+            ], 201);
+        }
+        
+    }
+
     public function getproductsbyid($id)
     {
         //dd($id);

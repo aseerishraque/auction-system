@@ -125,6 +125,9 @@
                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                         </svg>
                                     </button>
+                                    <button @click="deleteProduct(product.id, index)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                             
@@ -349,6 +352,15 @@ export default{
     this.left_image_preview = this.path + this.form_data.left_image;
     },
      methods:{
+         deleteProduct(id, index){
+            ProductService.deleteProduct(id)
+            .then(()=>{
+                this.products.splice(index, 1);
+            })
+            .catch(error => {
+                this.errors=error.response.data;
+            })
+         },
          onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)

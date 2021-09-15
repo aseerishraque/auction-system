@@ -80,6 +80,10 @@ const Store = createStore({
             state.tokens = tokens;
         },
 
+        setDeposit(state, payload){
+            state.currentUser.deposit = payload.deposit;
+        },
+        
         updateCurrentUser(state, currentUser) {
             state.currentUser = currentUser;
         },

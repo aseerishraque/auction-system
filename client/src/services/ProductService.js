@@ -12,8 +12,13 @@ export default {
     updateProduct(id, product) {
         return Api().put('/admin/products/' + id, product);
     },
+
     getcurrentproducts(id) {
         return Api().get('auction/create/getproduct/' + id);
+    },
+
+    deleteProduct(id) {
+        return Api().delete('admin/products/' + id);
     },
     
 }

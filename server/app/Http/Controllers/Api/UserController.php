@@ -187,6 +187,45 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function payNow(Request $request){
+        $user = User::find($request->user_id);
+        if($user->deposit < $request->winner_bid)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Insufficient Funds!'
+            ], 201);
+        }
+        $user->deposit = $user->deposit - $request->winner_bid;
+        if($user->save())
+        {
+            $auction = Auction::find($request->auction_id);
+            $auction->is_delivered = 1;
+            if($auction->save())
+            {
+                return response()->json([
+                    'status' => true,
+                    'auction' => $auction,
+                    'deposit' => $user->deposit,
+                    'message' => 'Pay Now Success!'
+                ], 201);
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Auction Delivery Status Set Error!'
+                ], 201);
+            }
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Price Reduction Error!'
+            ], 201);
+        }
+        
+        
+
+    }
+
     public function declineProduct(Request $request){
         $obj = Bid::where('auction_id', $request->auction_id)
                     ->where('user_id', $request->user_id)

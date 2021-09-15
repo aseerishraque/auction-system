@@ -35,6 +35,10 @@ export default {
     declineProduct(data){
         return Api().post('bidder/decline-product', data);
     },
+
+    payNow(data){
+        return Api().post('bidder/pay-now', data);
+    },
     
     getHomeItems(id){
         return Api().get('bidder/home-page-data/' + id);
