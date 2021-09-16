@@ -355,14 +355,16 @@ export default{
      methods:{
         searchProduct(e){
             // e.target.value = e.target.value.toLowerCase();
-           var result  = this.products_data.map(a=>{
-               if(a.product_name.toLowerCase().search(e.target.value.toLowerCase()) > 0){
-                   return a;
+           var result  = this.products_data.filter(a=>{
+               if(a.product_name.includes(e.target.value) === true){
+                   return true;
+               }else{
+                   return false;
                }
            });
-            console.log(result? result[0] : null);
+            // console.log(result[0]);
             // return result? result[0] : null; // or undefined
-            // this.products = {...result};
+            this.products = [...result];
             
         },
         deleteProduct(id, index){
