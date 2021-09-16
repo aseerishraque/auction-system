@@ -289,10 +289,24 @@ class UserController extends Controller
             // $obj->bidding_date = '11-11-21';
             if($obj->save())
             {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Bid placed Successfully'
-                ], 201);
+                $highest_bid = Bid::where('auction_id', $request->auction_id)
+                                    ->orderBy('bidding_price', 'DESC')
+                                    ->first();
+                $obj = new Auction();
+                $obj = $obj->find($request->auction_id);
+                $obj->user_id = $highest_bid->user_id;
+                $obj->winner_bid = $highest_bid->bidding_price;
+                if($obj->save()){
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Bid placed Successfully'
+                    ], 201);
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Bid placed and Auction Result Update Error'
+                    ], 201);
+                }
             }else{
                 return response()->json([
                     'status' => false,
