@@ -1,5 +1,8 @@
 <template>
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"> Add Product </h2>
+     <div v-if="statusText.length > 0" class="mt-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ statusText }}</span>
+    </div>
             <!-- <div class="bg-gray-500 pt-3">
                 <div class="rounded-tl-4xl bg-gradient-to-r from-blue-400 to-gray-400 p-4 shadow text-2xl text-white">
                     <h3 class="font-bold pl-2">Add Product</h3>
@@ -204,6 +207,7 @@ export default {
             return {
 				errors:null,
                 categories:[],
+                statusText:'',
                 errors:{
 					product_name: [],
 					model_no: [],
@@ -337,10 +341,11 @@ export default {
                     this.is_saved = response.data.status;
                     this.is_loading=false;
                     this.resetFormData();
+                    this.statusText = '';
                 })
-                
                 .catch(error => {
                     this.is_loading=false
+                    this.statusText = error.response.statusText;
                     let data = error.response.data
                     for (let key in data.errors) {
 						this.errors[key] = []

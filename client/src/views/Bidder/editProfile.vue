@@ -8,6 +8,9 @@
                     </div> -->
                     <h2 class="text-lg font-bold tracking-tighter text-black uppercase duration-300 ease-in-out transform transition hover:text-blue-500 dark:text-gray-400"> Edit Personal Information </h2>
                 </a>
+                <div v-if="statusText.length > 0" class="mt-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ statusText }}</span>
+                </div>
                 <form enctype="multipart/form-data" class="mt-6 flex flex-col gap-4" method="POST" @submit.prevent="updateUser(userId, user)">
                     <div class="flex flex-col md:flex-row gap-4 justify-center">
                         <div class="w-full">
@@ -166,6 +169,7 @@ export default {
         return {
             userId: '',
             loginType:false,
+            statusText:'',
             errors:{
                 name: [],
                 email: [],
@@ -306,8 +310,10 @@ export default {
                 .then(response => {
                     let successMessage = response.data.message
                     this.msg=successMessage;
+                    this.statusText = '';
                 })
                 .catch(error => {
+                    this.statusText = error.response.statusText;
 					let data = error.response.data
                     for (let key in data.errors) {
 						this.errors[key] = []

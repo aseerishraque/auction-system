@@ -310,7 +310,7 @@ import CategoryService from "../../../services/CategoryService";
 import LinkButton from "../../../components/LinkButton.vue";
 import env from "../../../config/env";
 import Pagination from '../../../components/Pagination.vue';
-export default{
+export default {
     components:{LinkButton, Pagination},
 
     data() {
@@ -321,7 +321,7 @@ export default{
             errors:[],
             form_data:{},
             msg:'',
-            path:'http://127.0.0.1:8000/',
+            path:'',
             is_modal_open:false,
             update_product:[],
             is_loading:false,
@@ -347,7 +347,8 @@ export default{
         }
     },
     created()
-    { 
+    {
+    this.path = env.baseURL+'/';
     this.getproducts();
     this.getcategories();
     this.left_image_preview = this.path + this.form_data.left_image;
@@ -355,15 +356,13 @@ export default{
      methods:{
         searchProduct(e){
             // e.target.value = e.target.value.toLowerCase();
-           var result  = this.products_data.filter(a=>{
-               if(a.product_name.includes(e.target.value) === true){
-                   return true;
-               }else{
-                   return false;
-               }
-           });
-            // console.log(result[0]);
-            // return result? result[0] : null; // or undefined
+            var result  = this.products_data.filter(a=>{
+                if(a.product_name.includes(e.target.value) === true){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
             this.products = [...result];
             
         },

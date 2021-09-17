@@ -121,7 +121,9 @@
                     </header>
 
                     <p class="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-300"> Edit Auction </p>
-                    
+                <div v-if="statusText.length > 0" class="mt-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ statusText }}</span>
+                </div>
                 <form @submit.prevent="updateAuction(form_data)">     
                         <div class="mb-16">
                             <div class="max-h-96 overflow-y-auto flex flex-col gap-4">
@@ -216,6 +218,7 @@ export default {
         },
         data(){
             return {
+                statusText: '',
                 products:[],
                 categories:[],
                 auctions:[],
@@ -269,12 +272,13 @@ export default {
                 this.is_loading=true
                 AuctionService.updateAuction(this.form_data.id,form_data)
                 .then(response => {
-                    this.is_loading=false
-                    
+                    this.is_loading=false;
                     this.closeModal();
+                    this.statusText = '';
                 })
                 .catch(error => {
-					 this.is_loading=false
+                    this.statusText = error.response.statusText;
+                    this.is_loading=false
                     let data = error.response.data
                     console.log(data)
                     for (let key in data.errors) {

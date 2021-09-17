@@ -10,7 +10,10 @@
                 <router-link :to="{name: 'visitor.home'}">
                     <button type="submit" class="btn bg-black rounded-md mt-10 float-right">Back to Home Page</button> 
                 </router-link>
-                <h1 class="clear-right mt-6 text-xl font-semibold text-black tracking-ringtighter sm:text-2xl title-font">Sign up to your account</h1>
+            <h1 class="clear-right mt-6 text-xl font-semibold text-black tracking-ringtighter sm:text-2xl title-font">Sign up to your account</h1>
+                <div v-if="statusText.length > 0" class="mt-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ statusText }}</span>
+                </div>
                 <form enctype="multipart/form-data" class="mt-6 flex flex-col gap-4" method="POST" @submit.prevent="register(user)">
                     <div class="flex flex-col md:flex-row gap-4 justify-center">
                         <div class="w-full">
@@ -130,7 +133,18 @@ export default {
         data(){
             return {
                 loginType:false,
+                statusText: '',
 				errors:{
+					name: [],
+					email: [],
+					password: [],
+                    mobile_no:[],
+					password_confirmation: [],
+                    account_type:[],
+                    nid_no:[],
+                    vat_no:[],
+				},
+                default_errors:{
 					name: [],
 					email: [],
 					password: [],
@@ -205,8 +219,11 @@ export default {
                 .then(response => {
                     let successMessage = response.data.message
                     this.msg=successMessage;
+                    this.statusText = '';
+                    this.errors = Object.assign({}, this.default_errors);
                 })
                 .catch(error => {
+                    this.statusText = error.response.statusText
 					let data = error.response.data
                     for (let key in data.errors) {
 						this.errors[key] = []
