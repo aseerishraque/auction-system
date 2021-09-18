@@ -8,6 +8,7 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Services\SaveImageService;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -35,6 +36,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        // return response()->json([
+        //     'request' => $request->toArray(),
+        //     'message' => 'Product Added Successfully.',
+        // ], 201);
         $attributes = ['front_image', 'back_image', 'left_image', 'right_image'];
 
         $product = Product::create(array_merge(

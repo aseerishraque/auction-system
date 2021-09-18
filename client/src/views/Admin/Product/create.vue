@@ -280,7 +280,7 @@ export default {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;
-                // console.log(this.createImage(files[0]));
+                this.createImage(files[0]);
             },
             createImage(file) {
                 let reader = new FileReader();
