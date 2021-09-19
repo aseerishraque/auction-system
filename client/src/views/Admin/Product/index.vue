@@ -367,13 +367,16 @@ export default {
             
         },
         deleteProduct(id, index){
-            ProductService.deleteProduct(id)
-            .then(()=>{
-                this.products.splice(index, 1);
-            })
-            .catch(error => {
-                this.errors=error.response.data;
-            })
+            var is_del = confirm("Are you sure to delete ?!");
+            if(is_del){
+                ProductService.deleteProduct(id)
+                .then(()=>{
+                    this.products.splice(index, 1);
+                })
+                .catch(error => {
+                    this.errors=error.response.data;
+                });
+            }
          },
          onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;

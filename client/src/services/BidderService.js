@@ -16,6 +16,11 @@ export default {
     getBidder(id){
         return Api().get('bidders/' + id);
     },
+
+    deleteBidder(id){
+        return Api().delete('admin/bidders/' + id);
+    },
+
     getUserBids(id){
         return Api().get('bidder/bids/' + id);
     },

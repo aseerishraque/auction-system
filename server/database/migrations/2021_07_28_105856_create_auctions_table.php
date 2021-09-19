@@ -15,7 +15,7 @@ class CreateAuctionsTable extends Migration
     {
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->nullable();
+            $table->foreignId('product_id')->unique();
             $table->foreignId('category_id')->nullable()->constrained();
             $table->timestamp('start_time', 0)->nullable();
             $table->timestamp('close_time', 0)->nullable();

@@ -27,6 +27,7 @@ class UpdateAuctionRequest extends FormRequest
             'start_time'    => ['required'],
             'close_time'    => ['required'],
             'result_time'   => ['required'],
+            'paying_time'   => ['required'],
             'product_id'     =>['required'],
             'category_id'     =>['required']
         ];

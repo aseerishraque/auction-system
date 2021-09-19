@@ -132,13 +132,13 @@
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Start Time
                                         </span>
-                                        <input type="datetime-local" required v-model="form_data.start_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
+                                        <input type="datetime-local" v-model="form_data.start_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
                                     </label>
                                     <label class="w-full block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Close Time
                                         </span>
-                                        <input type="datetime-local" required v-model="form_data.close_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
+                                        <input type="datetime-local" v-model="form_data.close_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
                                     </label>
                                 </div>
                                 <div class="w-full flex items-center gap-4">   
@@ -146,13 +146,13 @@
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Result Time
                                         </span>
-                                        <input type="datetime-local" required v-model="form_data.result_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
+                                        <input type="datetime-local" v-model="form_data.result_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
                                     </label>
                                     <label class="w-full block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Paying Time
                                         </span>
-                                        <input type="datetime-local" required v-model="form_data.paying_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" placeholder="Product Price"/>
+                                        <input type="datetime-local" v-model="form_data.paying_time" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" />
                                     </label>
                                 </div>
                                 <div class="w-full flex items-center gap-4">
@@ -160,7 +160,8 @@
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Select Category <span class="-ml-1 text-red-500">*</span>
                                         </span>
-                                        <select @change="select_value" class="w-full block mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" required v-model="form_data.category_id">
+                                        <input type="hidden" v-model="form_data.category_id">
+                                        <select disabled class="w-full block mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" required v-model="form_data.category_id">
                                             <option class="py-1" value="">
                                                 --Select Category--
                                             </option>
@@ -173,7 +174,8 @@
                                         <span class="text-gray-700 dark:text-gray-400">
                                             Select Product <span class="-ml-1 text-red-500">*</span>
                                         </span>
-                                        <select class="w-full block mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" required v-model="form_data.product_id">
+                                        <input type="hidden" v-model="form_data.product_id"/>
+                                        <select disabled class="w-full block mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" required v-model="form_data.product_id">
                                             <option class="py-1" value="">
                                                 --Select product--
                                             </option>
@@ -272,6 +274,7 @@ export default {
                 this.is_loading=true
                 AuctionService.updateAuction(this.form_data.id,form_data)
                 .then(response => {
+                    console.log(response);
                     this.is_loading=false;
                     this.closeModal();
                     this.statusText = '';
@@ -350,11 +353,13 @@ export default {
                  this.getproducts();    
             },
             openModel(index){
-            this.form_data = this.auctions[index];
+            this.form_data = {...this.auctions[index]};
             // this.getproducts();
-             console.log(this.form_data)
+             console.log(this.form_data.paying_time);
             this.is_modal_open = true;
             this.errors = null;
+            this.categoryid = this.form_data.category_id;
+            this.getproducts();    
         },
         closeModal() {
             this.form_data = {};

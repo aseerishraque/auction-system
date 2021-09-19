@@ -7,6 +7,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Models\User;
 use App\Models\Auction;
 use App\Models\Bid;
+use App\Models\Product;
 use App\Services\SaveImageService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -203,12 +204,25 @@ class UserController extends Controller
             $auction->is_delivered = 1;
             if($auction->save())
             {
-                return response()->json([
-                    'status' => true,
-                    'auction' => $auction,
-                    'deposit' => $user->deposit,
-                    'message' => 'Pay Now Success!'
-                ], 201);
+                $product = Product::find($auction->product_id);
+                $product->is_sold = 1;
+
+                if($product->save())
+                {
+                    return response()->json([
+                        'status' => true,
+                        'auction' => $auction,
+                        'deposit' => $user->deposit,
+                        'message' => 'Pay Now Success!'
+                    ], 201);
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Pay Now Error!'
+                    ], 201);
+                }
+
+               
             }else{
                 return response()->json([
                     'status' => false,
@@ -260,6 +274,21 @@ class UserController extends Controller
         }
         
 
+    }
+
+    public function deleteBidder($id){
+        $user = User::find($id);
+        if($user->delete()){
+            return response()->json([
+                'status' => true,
+                'message' => 'Decline Bidder Success!'
+            ], 201);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Decline Bidder Error!'
+            ], 201);
+        }
     }
 
     public function bidProduct(Request $request)

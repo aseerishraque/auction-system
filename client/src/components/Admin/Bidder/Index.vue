@@ -57,6 +57,7 @@
                       </svg>
                   </button>
                 </router-link>
+                <button @click="deleteBidder(bidder.id, idx)" class="btn btn-error btn-sm">Decline</button>
                 
             </div>
         </td>
@@ -125,6 +126,19 @@ export default{
          .catch(error=>{
            console.log(error);
          });
+        },
+        deleteBidder(id, index){
+          var is_del = confirm("Are you sure to decline ?!");
+          if(is_del){
+            BidderService.deleteBidder(id)
+            .then(()=>{
+              this.bidders.splice(index, 1);
+            })
+            .catch(error=>{
+              console.log(error);
+            });
+          }
+          
         },
         approveBidder(id, is_approved){
           BidderService.approveBidder(id, is_approved)

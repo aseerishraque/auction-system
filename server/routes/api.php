@@ -43,8 +43,11 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::get('auction-data/past/{id}', [AuctionController::class, 'updateAuctionStatus']);
         
         Route::get('/bidders', [UserController::class, 'getBidders']);
+        Route::delete('/bidders/{id}', [UserController::class, 'deleteBidder']);
         Route::get('/approvebidder/{id}/status/{is_approved}', [UserController::class, 'approveBidder']);
     });
+
+    //Common routes used by both admin and bidder
     Route::get('/bidders/{id}', [UserController::class, 'getBidder']);
     Route::put('/bidders/{id}', [UserController::class, 'updateBidder']);
     

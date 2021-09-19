@@ -174,6 +174,7 @@ class ProductController extends Controller
         $products = DB::table('products')
          ->select('products.*', 'products.id AS pid','products.product_name')
         ->where('category_id', '=', $id)
+        ->where('products.is_sold', 0)
         ->get();
         $status   = $products->count() ? true : false;
 
