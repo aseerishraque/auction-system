@@ -54,12 +54,21 @@
 <!-- Carousel END -->
 <!-- Featured Section Start -->
     <h1 class="text-3xl mt-10 mb-5">Running Auctions</h1>
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid grid-cols-4 gap-3">
       <AuctionItem v-for="(runningAuction, index) in runningAuctions" :key="index" 
         :expiryDate="runningAuction.close_time"
         :front_image="runningAuction.front_image"
         :product_name="runningAuction.product_name"
         :id="runningAuction.id"
+        />
+    </div>
+    <h1 class="text-3xl mt-10 mb-5">Upcoming Auctions</h1>
+    <div class="grid grid-cols-4 gap-3">
+      <AuctionItem v-for="(upcommingAuction, index) in upcommingAuctions" :key="index" 
+        :expiryDate="upcommingAuction.start_time"
+        :front_image="upcommingAuction.front_image"
+        :product_name="upcommingAuction.product_name"
+        :id="upcommingAuction.id"
         />
     </div>
 <!-- Featured Section END -->
@@ -111,6 +120,8 @@ export default {
         return {
             runningAuctions_data:[],
             runningAuctions:[],
+            upcommingAuctions_data:[],
+            upcommingAuctions:[],
             public_url: ''
         }
     },
@@ -132,7 +143,26 @@ export default {
                     }
                     return a;
                 });
-                this.runningAuctions = {...this.runningAuctions_data};
+                this.runningAuctions = {...this.runningAuctions_data.filter((item, index)=> (index<=3) ? true : false )};
+                // console.log(this.runningAuctions_data[0].front_image);
+            })
+            .catch(error=>{
+                console.log(error);
+            });
+
+            AuctionService.getUpcomingAuction()
+            .then(res=>{
+                this.upcommingAuctions_data = res.data.data;
+                this.upcommingAuctions_data = this.upcommingAuctions_data.map(a=>{
+                    if(a.front_image !== null)
+                    {
+                        a.front_image = this.public_url+'/'+a.front_image;
+                    }else{
+                        a.front_image = '/images/pre-upload.png';
+                    }
+                    return a;
+                });
+                this.upcommingAuctions = {...this.upcommingAuctions_data.filter((item, index)=> (index<=3) ? true : false )};
                 // console.log(this.runningAuctions_data[0].front_image);
             })
             .catch(error=>{

@@ -28,7 +28,7 @@ export default {
         return Api().get('auction-data/running'); //public route
     },
     getUpcomingAuction() {
-        return Api().get('admin/auction-data/upcoming');
+        return Api().get('auction-data/upcoming');
     },
     
     

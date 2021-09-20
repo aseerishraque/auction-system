@@ -46,9 +46,9 @@
                 <!-- <div class="form-control">
                  <input type="text" placeholder="Bid" class="input input-bordered">
                 </div>  -->
-                <div class="card-actions mt-10">
+                <div class="card-actions mt-10" v-if="can_bid">
                     <input v-model="bid.bidding_price" :disabled="!is_logged_in" type="number" placeholder="00.0" class="input input-bordered">
-                <button @click="bidProduct" :disabled="!is_logged_in" :class="btn_loading ? 'ml-10 btn btn-primary loading': 'ml-10 btn btn-primary'">Bid</button> 
+                    <button  @click="bidProduct" :disabled="!is_logged_in" :class="btn_loading ? 'ml-10 btn btn-primary loading': 'ml-10 btn btn-primary'">Bid</button> 
                 <!-- <button class="btn btn-ghost">More info</button> -->
                 </div>
                 <div v-if="errorAlert" class="alert alert-warning mt-10">
@@ -102,6 +102,7 @@ export default {
             btn_loading:false,
             successAlert:false,
             errorAlert:false,
+            can_bid: true,
             msg:'',
             bid:{
                 user_id:null,
@@ -153,6 +154,7 @@ export default {
                 .then(response => {
                     this.auctions = response.data.data;
                     this.auction = this.auctions[0];
+                    this.can_bid = this.auction.can_bid;
                     if(this.auction.front_image !== null){
                         this.auction.front_image = env.baseURL + '/' + this.auction.front_image;
                     }else{

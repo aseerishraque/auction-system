@@ -10,28 +10,28 @@
         </h2> 
             <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
             <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                <span class="font-mono text-5xl countdown">
+                <span class="font-mono text-2xl countdown">
                 <span :style="'--value:'+timer.days.value"></span>
                 </span>
                     days 
                 
             </div> 
             <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                <span class="font-mono text-5xl countdown">
+                <span class="font-mono text-2xl countdown">
                 <span :style="'--value:'+timer.hours.value"></span>
                 </span>
-                    hours
+                    hrs
                 
             </div> 
             <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                <span class="font-mono text-5xl countdown">
+                <span class="font-mono text-2xl countdown">
                 <span :style="'--value:'+timer.minutes.value"></span>
                 </span>
                     min 
                 
             </div> 
             <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-                <span class="font-mono text-5xl countdown">
+                <span class="font-mono text-2xl countdown">
                 <span :style="'--value:'+timer.seconds.value"></span>
                 </span>
                     sec
@@ -41,7 +41,7 @@
 
         <div class="justify-end card-actions">
         <router-link :to="{name: 'visitor.product', params: {id}}">
-            <button class="btn btn-primary">More info</button>
+            <button class="btn btn-primary btn-sm">More info</button>
         </router-link>
         </div>
     </div>

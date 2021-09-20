@@ -61,7 +61,7 @@ class AuctionController extends Controller
         date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
          ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
-         ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price')
+         ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price', 'products.front_image')
         ->where('auctions.start_time', '>', Carbon::now())
         ->get();
         
@@ -124,10 +124,15 @@ class AuctionController extends Controller
         'products.right_image','products.description','users.name','products.base_price')
         ->where('auctions.id', '=', $id)
         ->get();
+
+        // ->where('auctions.start_time', '>', Carbon::now())
+
+        $can_bid = $auction->start_time > Carbon::now() ? true : false;
        
         $status = $auctions->count() ? true : false;
         return response()->json([   
             'data'   => $auctions,
+            'can_bid' => $can_bid,
             'status' => $status,
             
         ]);
