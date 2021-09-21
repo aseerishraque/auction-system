@@ -72,6 +72,10 @@
         />
     </div>
 <!-- Featured Section END -->
+<router-link :to="{name: 'visitor.product.categorised'}">
+    <button class="btn mt-5 mb-5">Show more</button> 
+</router-link>
+
 <!-- Footer Start -->
 <footer class="p-10 footer bg-base-200 text-base-content">
   <div>

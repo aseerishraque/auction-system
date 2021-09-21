@@ -132,9 +132,11 @@ function payNow(auction_id, winner_bid, index){
         winner_bid: winner_bid
     })
     .then(res=>{
-        console.log(res);
-        products[index].is_delivered = 1; 
-        Store.commit('setDeposit', { deposit: res.data.deposit})
+        if(res.data.status){
+            products[index].is_delivered = 1; 
+            Store.commit('setDeposit', { deposit: res.data.deposit})
+        }
+       
         btn_loading = false;
     })
     .catch(error=>{

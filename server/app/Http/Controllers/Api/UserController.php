@@ -308,7 +308,8 @@ class UserController extends Controller
                 'message' => 'Not Eligible to Bid!'
             ], 201);
         }
-        if($user->deposit >= $request->bidding_price)
+        
+        if($user->deposit >= $request->expected_value*($request->percentage/100))
         {
             $obj = new Bid();
             $obj->user_id = $request->user_id;
@@ -328,6 +329,7 @@ class UserController extends Controller
                 if($obj->save()){
                     return response()->json([
                         'status' => true,
+                        'auction' => $obj,
                         'message' => 'Bid placed Successfully'
                     ], 201);
                 }else{

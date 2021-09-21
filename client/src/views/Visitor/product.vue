@@ -39,10 +39,18 @@
         <div class="card lg:card-side bordered">
             <div class="card-body">
                 <h2 class="card-title">Product: {{ auction.product_name }}</h2> 
-                <h2 class="text-lg font-bold">Base Price: {{ auction.base_price }}</h2> 
+                <h2 class="text-lg font-bold">Description:</h2>
                 <p> {{ auction.description }} </p>
+                <h2 class="text-lg font-bold">Specification:</h2>
+                <p> {{ auction.specification }} </p>
+                <h2 class="text-lg font-bold">Percentage: {{ auction.percentage }}%</h2>
+           
+                <h2 class="text-lg font-bold">Expected: {{ auction.expected_value }}</h2>
+               
 
                 <CountDown v-if="renderComponent" :dateTime="auction.close_time" />
+                <h2 class="text-lg font-bold">Base Price: {{ auction.base_price }}</h2> 
+                <h2 v-if="can_bid" class="text-lg font-bold">Highest Bid: {{ auction.winner_bid }}</h2> 
                 <!-- <div class="form-control">
                  <input type="text" placeholder="Bid" class="input input-bordered">
                 </div>  -->
@@ -108,7 +116,9 @@ export default {
                 user_id:null,
                 bidding_price:0,
                 auction_id: null,
-                bidding_date:''
+                bidding_date:'',
+                percentage:null,
+                expected_value:null,
             }
         }
     },
@@ -135,6 +145,7 @@ export default {
                 if(res.data.status){
                     this.errorAlert = false;
                     this.successAlert = true;
+                    this.auction.winner_bid = res.data.auction.winner_bid;
                 }else{
                     this.errorAlert = true;
                     this.successAlert = false;
@@ -154,7 +165,7 @@ export default {
                 .then(response => {
                     this.auctions = response.data.data;
                     this.auction = this.auctions[0];
-                    this.can_bid = this.auction.can_bid;
+                    this.can_bid = response.data.can_bid;
                     if(this.auction.front_image !== null){
                         this.auction.front_image = env.baseURL + '/' + this.auction.front_image;
                     }else{
@@ -177,6 +188,8 @@ export default {
                     }
                     this.bid.user_id = Store.state.currentUser.id;
                     this.bid.auction_id = this.auction.id;
+                    this.bid.percentage = this.auction.percentage;
+                    this.bid.expected_value = this.auction.expected_value;
                     this.bid.bidding_date = new Date().toISOString().split('T')[0];
                     this.forceRerender();
                     // console.log(this.auction.front_image)	

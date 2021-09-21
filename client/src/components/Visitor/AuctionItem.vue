@@ -1,5 +1,5 @@
 <template>
-<div class="card bordered">
+<div class="card bordered shadow-lg">
     <figure class="">
         <!-- <img src="https://picsum.photos/id/1005/400/250"> -->
         <img :src="front_image" class="object-contain h-36 w-full">

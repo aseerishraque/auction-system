@@ -249,25 +249,29 @@ export default {
 	    },
         methods: {
             deleteAuction(id, index){
-                this.is_loading=true;
-                AuctionService.deleteAuction(id)
-                .then(()=>{
-                    this.auctions.splice(index, 1);
-                    this.is_loading=false;
-                })
-                .catch(error => {
-                    this.is_loading=false
-                    let data = error.response.data
-                    console.log(data)
-                    for (let key in data.errors) {
-						this.errors[key] = []
-						let errorMessage = data.errors[key]
-						if (errorMessage){
-							this.errors[key] = errorMessage
-						}
-					}	
-					
-				})
+                var is_del = confirm("Are you sure to delete ?!");
+                if(is_del){
+                    this.is_loading=true;
+                    AuctionService.deleteAuction(id)
+                    .then(()=>{
+                        this.auctions.splice(index, 1);
+                        this.is_loading=false;
+                    })
+                    .catch(error => {
+                        this.is_loading=false
+                        let data = error.response.data
+                        console.log(data)
+                        for (let key in data.errors) {
+                            this.errors[key] = []
+                            let errorMessage = data.errors[key]
+                            if (errorMessage){
+                                this.errors[key] = errorMessage
+                            }
+                        }	
+                        
+                    });
+                }
+                
             },
             updateAuction(form_data)
             {

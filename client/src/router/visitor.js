@@ -9,5 +9,11 @@ export default [{
     name: "visitor.product",
     component: () =>
         import ("../views/Visitor/product.vue"),
+},
+{
+    path: "/categorised-products",
+    name: "visitor.product.categorised",
+    component: () =>
+        import ("../views/Visitor/categorised.vue"),
 }, 
 ];

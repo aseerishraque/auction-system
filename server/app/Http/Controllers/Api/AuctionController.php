@@ -121,13 +121,14 @@ class AuctionController extends Controller
         ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
         ->select('auctions.*', 'user_id AS uid','product_id AS pid','products.product_name',
         'products.front_image','products.back_image','products.left_image',
-        'products.right_image','products.description','users.name','products.base_price')
+        'products.right_image','products.description','users.name','products.base_price',
+        'products.specification', 'products.percentage', 'products.expected_value')
         ->where('auctions.id', '=', $id)
         ->get();
 
         // ->where('auctions.start_time', '>', Carbon::now())
-
-        $can_bid = $auction->start_time > Carbon::now() ? true : false;
+        foreach($auctions as $auction)
+            $can_bid = $auction->start_time < Carbon::now() ? true : false;
        
         $status = $auctions->count() ? true : false;
         return response()->json([   
