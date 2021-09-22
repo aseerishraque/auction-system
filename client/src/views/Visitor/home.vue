@@ -56,20 +56,26 @@
     <h1 class="text-3xl mt-10 mb-5">Running Auctions</h1>
     <div class="grid grid-cols-4 gap-3">
       <AuctionItem v-for="(runningAuction, index) in runningAuctions" :key="index" 
-        :expiryDate="runningAuction.close_time"
-        :front_image="runningAuction.front_image"
-        :product_name="runningAuction.product_name"
-        :id="runningAuction.id"
-        />
+                    :expiryDate="runningAuction.close_time"
+                    :front_image="runningAuction.front_image"
+                    :product_name="runningAuction.product_name"
+                    :id="runningAuction.id"
+                    :base_price="runningAuction.base_price"
+                    :expected_value="runningAuction.expected_value"
+                    :percentage="runningAuction.percentage"
+                    />
     </div>
     <h1 class="text-3xl mt-10 mb-5">Upcoming Auctions</h1>
     <div class="grid grid-cols-4 gap-3">
-      <AuctionItem v-for="(upcommingAuction, index) in upcommingAuctions" :key="index" 
-        :expiryDate="upcommingAuction.start_time"
-        :front_image="upcommingAuction.front_image"
-        :product_name="upcommingAuction.product_name"
-        :id="upcommingAuction.id"
-        />
+      <AuctionItem v-for="(upcommingAuctions, index) in upcommingAuctions" :key="index" 
+                    :expiryDate="upcommingAuctions.close_time"
+                    :front_image="upcommingAuctions.front_image"
+                    :product_name="upcommingAuctions.product_name"
+                    :id="upcommingAuctions.id"
+                    :base_price="upcommingAuctions.base_price"
+                    :expected_value="upcommingAuctions.expected_value"
+                    :percentage="upcommingAuctions.percentage"
+                    />
     </div>
 <!-- Featured Section END -->
 <router-link :to="{name: 'visitor.product.categorised'}">

@@ -61,7 +61,7 @@ class AuctionController extends Controller
         date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
          ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
-         ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price', 'products.front_image')
+         ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price','products.expected_value','products.percentage', 'products.front_image', 'products.category_id')
         ->where('auctions.start_time', '>', Carbon::now())
         ->get();
         
@@ -77,7 +77,7 @@ class AuctionController extends Controller
         date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
             ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
-            ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price', 'products.front_image')
+            ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price','products.expected_value','products.percentage', 'products.front_image', 'products.category_id')
             ->where('close_time', '>=', Carbon::now())
             ->where('start_time', '<=', Carbon::now())
             ->get();
