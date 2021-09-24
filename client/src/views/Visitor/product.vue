@@ -43,9 +43,7 @@
                 <p> {{ auction.description }} </p>
                 <h2 class="text-lg font-bold">Specification:</h2>
                 <p> {{ auction.specification }} </p>
-                <h2 class="text-lg font-bold">Percentage: {{ auction.percentage }}%</h2>
-           
-                <h2 class="text-lg font-bold">Expected: {{ auction.expected_value }}</h2>
+                <h2 class="text-lg font-bold">Required Balance: {{ auction.expected_value*(auction.percentage/100) }}</h2>
                
 
                 <CountDown v-if="renderComponent" :dateTime="auction.close_time" />
@@ -119,6 +117,7 @@ export default {
                 bidding_date:'',
                 percentage:null,
                 expected_value:null,
+                base_price: null
             }
         }
     },
@@ -136,6 +135,9 @@ export default {
         }
         
         this.getauctiondetails();
+        setInterval(()=>{
+            this.getauctiondetails();
+        }, 2000)
     },
     methods: {
         bidProduct(){
@@ -163,6 +165,7 @@ export default {
         {
         AuctionService.getauctiondetails(this.auctionid)
                 .then(response => {
+                    // console.log("Called");
                     this.auctions = response.data.data;
                     this.auction = this.auctions[0];
                     this.can_bid = response.data.can_bid;
@@ -190,6 +193,7 @@ export default {
                     this.bid.auction_id = this.auction.id;
                     this.bid.percentage = this.auction.percentage;
                     this.bid.expected_value = this.auction.expected_value;
+                    this.bid.base_price = this.auction.base_price;
                     this.bid.bidding_date = new Date().toISOString().split('T')[0];
                     this.forceRerender();
                     // console.log(this.auction.front_image)	

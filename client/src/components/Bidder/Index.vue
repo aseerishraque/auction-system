@@ -1,5 +1,19 @@
 <template>
 <div class="admin-dashboard">
+<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    <span class="float-left">Welcome {{ user.name }},
+        <div v-if="is_approved === 1" class="badge badge-primary">
+            <i class="fas fa-check-double mr-2"></i>
+            Verified
+        </div>
+        <div v-else class="badge badge-error">
+            <i class="fas fa-times-circle mr-2"></i>
+            Not Verified
+        </div>
+    </span>
+    <span class="float-right">Balance: {{ userDeposit }} </span>
+</h2>
+
 <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
 
             <div class="mb-3">
@@ -67,6 +81,7 @@
                 <th>SL</th> 
                 <th>Product</th> 
                 <th>Result Time</th> 
+                <th>Paying Time</th> 
                 <th>Winner Bid</th>
                 <th class="text-center">Actions</th>
             </tr>
@@ -76,6 +91,7 @@
                 <th>{{ idx+1 }}</th> 
                 <td>{{ product.product_name }}</td> 
                 <td>{{ product.result_time }}</td> 
+                <td>{{ product.paying_time }}</td> 
                 <td>{{ product.winner_bid }}</td> 
                 <td v-if="product.is_delivered === 1" class="text-center">
                     <div class="badge badge-success">Delivered</div> 
@@ -84,8 +100,10 @@
                     <div class="badge badge-error"> Not Verifed User</div> 
                 </td>
                 <td v-else class="text-center">
-                    <button @click="payNow(product.id, product.winner_bid, idx)" :class="btn_loading ?'btn btn-primary btn-sm mr-5 loading': 'btn btn-primary btn-sm mr-5'">Pay Now</button>
-                    <button @click="declineProduct(product.id, idx)" :class="btn_loading ? 'btn btn-error btn-sm loading': 'btn btn-error btn-sm'">Decline</button>
+                    <!-- {{ product.close_time }} -->
+                    <button  @click="payNow(product.id, product.winner_bid, idx)" :class="btn_loading ?'btn btn-primary btn-sm mr-5 loading': 'btn btn-primary btn-sm mr-5'">Pay Now</button>
+                    <!-- <div v-else class="badge badge-accent badge-lg">Running</div>  -->
+                    <!-- <button @click="declineProduct(product.id, idx)" :class="btn_loading ? 'btn btn-error btn-sm loading': 'btn btn-error btn-sm'">Decline</button> -->
                 </td>
             </tr>
             </tbody>
@@ -99,15 +117,22 @@
 <script setup>
 import { ref } from "vue";
 import BidderService from '../../services/BidderService';
-
 const userId = Store.state.currentUser.id;
-const is_approved = Store.state.currentUser.is_approved;
+const bidderInfo = ref(await BidderService.getBidder(userId));
+const is_approved = bidderInfo.value.data.bidder.is_approved;
+const userDeposit = bidderInfo.value.data.bidder.deposit;
+const user = Store.state.currentUser;
+
+
 const homeItemsResponse = ref(await BidderService.getHomeItems(userId));
 const items = homeItemsResponse.value.data;
-const productsResponse = ref(await BidderService.getUserProducts(userId));
+const productsResponse = ref(await BidderService.getUserWinningProducts(userId));
 const products = productsResponse.value.data.products;
 let btn_loading = false;
-
+// var nowDateTime = productsResponse.value.data.nowDatetime;
+// console.log(nowDateTime);
+// var nowDateTime = new Date().toLocaleString("da-DK");
+// console.log(nowDateTime);
 function declineProduct(auction_id, index){
     btn_loading = true;
     BidderService.declineProduct({

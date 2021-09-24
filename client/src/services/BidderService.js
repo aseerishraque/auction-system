@@ -37,6 +37,11 @@ export default {
         return Api().get('bidder/products/' + id);
     },
 
+    getUserWinningProducts(id){
+        return Api().get('bidder/winning-products/' + id);
+    },
+
+
     declineProduct(data){
         return Api().post('bidder/decline-product', data);
     },

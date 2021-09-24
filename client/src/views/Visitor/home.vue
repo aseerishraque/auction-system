@@ -68,7 +68,7 @@
     <h1 class="text-3xl mt-10 mb-5">Upcoming Auctions</h1>
     <div class="grid grid-cols-4 gap-3">
       <AuctionItem v-for="(upcommingAuctions, index) in upcommingAuctions" :key="index" 
-                    :expiryDate="upcommingAuctions.close_time"
+                    :expiryDate="upcommingAuctions.start_time"
                     :front_image="upcommingAuctions.front_image"
                     :product_name="upcommingAuctions.product_name"
                     :id="upcommingAuctions.id"

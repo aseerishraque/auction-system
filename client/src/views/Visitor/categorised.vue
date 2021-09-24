@@ -48,7 +48,7 @@
             <div class="grid grid-cols-3 gap-4 ">
                 <!-- Auction Items -->
                  <AuctionItem v-for="(auction, index) in auctions" :key="index" 
-                    :expiryDate="auction.close_time"
+                    :expiryDate="auctionType === 1 ? auction.close_time : auction.start_time"
                     :front_image="auction.front_image"
                     :product_name="auction.product_name"
                     :id="auction.id"

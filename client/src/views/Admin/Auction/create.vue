@@ -18,9 +18,6 @@
                 </div>
             </div> -->
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-         <div v-if="statusText.length > 0" class="mt-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ statusText }}</span>
-        </div>
         <form @submit.prevent="storeAuction(form_data)" class="mt-4">
             <div class="max-h-96 overflow-y-auto flex flex-col gap-4">
                 <div class="w-full flex items-center gap-4">

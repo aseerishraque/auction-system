@@ -28,8 +28,15 @@ class StoreAuctionRequest extends FormRequest
             'close_time'    => ['required'],
             'result_time'   => ['required'],
             'paying_time'   => ['required'],
-            'product_id'     =>['required'],
+            'product_id'     =>['required', 'unique:auctions,product_id'],
             'category_id'     =>['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'product_id.unique' => 'The product has already been taken',
         ];
     }
 }

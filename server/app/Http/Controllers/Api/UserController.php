@@ -21,6 +21,9 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        // return response()->json([
+        //      'message' => 'Check Successfully',
+        //  ], 201);
         $request->validated();
         if($request->account_type == 'personal')
             $attributes = ['nid_front_img', 'nid_back_img'];
@@ -178,9 +181,25 @@ class UserController extends Controller
     }
 
     public function getUserProducts($id){
+        date_default_timezone_set("Asia/Dhaka");
         $products = Auction::join('products', 'products.id', 'auctions.product_id')
                             ->where('auctions.user_id', $id)
                             ->select('auctions.*', 'products.product_name')
+                            ->get();
+        return response()->json([
+        'products'    => $products,
+        'nowDatetime' => Carbon::now()->timezone('Asia/Dhaka'),
+        'message' => 'Users Products Retrieved Successfully',
+        ], 201);
+    }
+
+    public function getUserWinningProducts($id){
+        date_default_timezone_set("Asia/Dhaka");
+        $products = Auction::join('products', 'products.id', 'auctions.product_id')
+                            ->where('auctions.user_id', $id)
+                            ->select('auctions.*', 'products.product_name')
+                            ->where('auctions.close_time', '<', Carbon::now())
+                            ->where('auctions.paying_time', '>', Carbon::now())
                             ->get();
         return response()->json([
         'products'    => $products,
@@ -308,8 +327,17 @@ class UserController extends Controller
                 'message' => 'Not Eligible to Bid!'
             ], 201);
         }
-        
-        if($user->deposit >= $request->expected_value*($request->percentage/100))
+        $winner_bid = Auction::find($request->auction_id);
+
+        if(!isset($winner_bid)){
+            $winner_bid = 0;
+        }else{
+            $winner_bid = $winner_bid->winner_bid;
+        }                                    
+        if(($user->deposit >= $request->expected_value*($request->percentage/100)) && 
+        ($request->bidding_price > $request->base_price && 
+        $request->bidding_price > $winner_bid)
+        )
         {
             $obj = new Bid();
             $obj->user_id = $request->user_id;
@@ -319,13 +347,10 @@ class UserController extends Controller
             // $obj->bidding_date = '11-11-21';
             if($obj->save())
             {
-                $highest_bid = Bid::where('auction_id', $request->auction_id)
-                                    ->orderBy('bidding_price', 'DESC')
-                                    ->first();
                 $obj = new Auction();
                 $obj = $obj->find($request->auction_id);
-                $obj->user_id = $highest_bid->user_id;
-                $obj->winner_bid = $highest_bid->bidding_price;
+                $obj->user_id = $request->user_id;
+                $obj->winner_bid = $request->bidding_price;
                 if($obj->save()){
                     return response()->json([
                         'status' => true,

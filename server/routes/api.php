@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::post('bid', [UserController::class, 'bidProduct']);
         Route::post('deposit', [UserController::class, 'deposit']);
         Route::get('products/{id}', [UserController::class, 'getUserProducts']);
+        Route::get('winning-products/{id}', [UserController::class, 'getUserWinningProducts']);
         Route::get('home-page-data/{id}', [UserController::class, 'getHomeItems']);
         Route::post('decline-product', [UserController::class, 'declineProduct']);
         Route::post('pay-now', [UserController::class, 'payNow']);

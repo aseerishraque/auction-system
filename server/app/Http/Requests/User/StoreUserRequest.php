@@ -41,6 +41,7 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'digits:11',
                 'unique:users,mobile_no',
+                'regex:/01[0-9]{9,}/m'
             ],
 
             'password' => [

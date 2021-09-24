@@ -116,6 +116,7 @@ class AuctionController extends Controller
     }
     public function getauctiondetails($id)
     { 
+        date_default_timezone_set("Asia/Dhaka");
         $auctions = DB::table('auctions')
         ->leftjoin('users', 'users.id', '=', 'auctions.user_id')
         ->leftjoin('products', 'products.id', '=', 'auctions.product_id')

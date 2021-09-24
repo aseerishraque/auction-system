@@ -32,11 +32,11 @@
                     <div class="flex flex-col md:flex-row gap-4 justify-center">
                         <div class="w-full">
                             <label class="mb-1 block text-sm font-medium leading-relaxed tracking-tighter text-gray-700">Mobile Number</label>
-                            <input type="number" v-model="user.mobile_no" required minlength="11" placeholder="Your Mobile No." class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2">
+                            <input type="text" v-model="user.mobile_no" required minlength="11" placeholder="Your Mobile No." class="w-full px-4 py-2 text-base text-black transition duration-300 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:border-gray-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-2">
                         </div> 
                     </div>
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-show="user.mobile_no.length>11">
-                            <span class="block sm:inline">Must be 11 digit</span>
+                            <span class="block sm:inline">Must be 11 digit and Bangladeshi number</span>
                         </div>
                  
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-show="user.mobile_no.length==1">
@@ -129,6 +129,8 @@
 </template>
 
 <script>
+import {useRouter} from "vue-router";
+
 export default {
         data(){
             return {
@@ -221,6 +223,8 @@ export default {
                     this.msg=successMessage;
                     this.statusText = '';
                     this.errors = Object.assign({}, this.default_errors);
+                    const router = useRouter();
+                    router.push({ name: 'auth.login'});
                 })
                 .catch(error => {
                     this.statusText = error.response.statusText

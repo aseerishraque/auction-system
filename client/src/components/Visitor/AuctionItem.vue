@@ -39,7 +39,7 @@
             </div>
         </div>
         <span> <b> Base Price:</b> {{ base_price }}</span>
-        <span> <b>Expected Price:</b> {{ expected_value }}(<span class="text-success font-bold"> {{ percentage }}%</span>)</span>
+        <span> <b>Required Balance:</b> {{ expected_value*(percentage/100) }}</span>
         <div class="justify-end card-actions">
         <router-link :to="{name: 'visitor.product', params: {id}}">
             <button class="btn btn-primary btn-sm">More info</button>
