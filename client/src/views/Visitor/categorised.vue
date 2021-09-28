@@ -10,6 +10,14 @@
                             Categories
                         </span>
                     </li>
+                    <li :class="selected_category === null ? 'bg-primary text-white' : ''">
+                    <a @click="initialize()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 mr-2 stroke-current">          
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>                
+                        </svg>
+                            All
+                    </a>
+                    </li>
                     <li v-for="category in categories" :key="category.id" :class="selected_category === category.id ? 'bg-primary text-white' : ''">
                     <a @click="getByCategoryId(category.id)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 mr-2 stroke-current">          
@@ -45,7 +53,7 @@
             </div>
         </div>
         <div class="col-span-3 py-4 artboard artboard-demo bg-base-200 bg-neutral-content shadow-lg">
-            <div class="grid grid-cols-3 gap-4 ">
+            <div v-if="renderComponent" class="grid grid-cols-3 gap-4 ">
                 <!-- Auction Items -->
                  <AuctionItem v-for="(auction, index) in auctions" :key="index" 
                     :expiryDate="auctionType === 1 ? auction.close_time : auction.start_time"
@@ -55,6 +63,7 @@
                     :base_price="auction.base_price"
                     :expected_value="auction.expected_value"
                     :percentage="auction.percentage"
+                    :type="auctionType"
                     />
             </div>
         </div>
@@ -78,6 +87,7 @@ export default {
             auctions:[],
             auctionType:1,
             selected_category:null,
+            renderComponent:true
         }
     },
     components:{
@@ -87,10 +97,10 @@ export default {
     created() {
         this.public_url = env.baseURL;
         this.initialize();
-        this.getAuctions(this.auctionType);
     },
     methods: {
         initialize(){
+            this.selected_category = null;
             CategoryService.index()
             .then(res=>{
                 this.categories = {...res.data.categories};
@@ -99,7 +109,7 @@ export default {
                 console.log(error);
             });
 
-            
+            this.getAuctions(this.auctionType);
         },
         selectAuctionType(type){
             this.auctionType = type;
@@ -122,7 +132,7 @@ export default {
                     if(this.selected_category !== null){
                        this.getByCategoryId(this.selected_category);
                     }else{
-                        this.auctions = this.runningAuctions_data;
+                        this.auctions = [...this.runningAuctions_data];
                     }
                     
                 })
@@ -145,7 +155,7 @@ export default {
                     if(this.selected_category !== null){
                        this.getByCategoryId(this.selected_category);
                     }else{
-                        this.auctions = this.upcommingAuctions_data;
+                        this.auctions = [...this.upcommingAuctions_data];
                     }
                     // console.log(this.runningAuctions_data[0].front_image);
                 })
@@ -155,12 +165,24 @@ export default {
             }
             
         },
+        
+        forceRerender() {
+            // Remove my-component from the DOM
+            this.renderComponent = false;
+
+            // If you like promises better you can
+            // also use nextTick this way
+            this.$nextTick().then(() => {
+                // Add the component back in
+                this.renderComponent = true;
+            });
+        },
         getByCategoryId(category_id){
             this.selected_category = category_id;
             if(this.auctionType === 1){
-                this.auctions = this.runningAuctions_data.filter(item=>item.category_id === category_id ? true : false);
+                this.auctions = [...this.runningAuctions_data.filter(item=>item.category_id === category_id ? true : false)];
             }else{
-                this.auctions = this.upcommingAuctions_data.filter(item=>item.category_id === category_id ? true : false);
+                this.auctions = [...this.upcommingAuctions_data.filter(item=>item.category_id === category_id ? true : false)];
             }
             
         }

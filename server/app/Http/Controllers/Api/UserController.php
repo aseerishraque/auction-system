@@ -146,7 +146,7 @@ class UserController extends Controller
                     ->join('products', 'products.id', 'auctions.product_id')
                     ->where('bids.user_id', $id)
                     ->select('bids.*', 'products.product_name')
-                    ->get();
+                    ->latest()->get();
         return response()->json([
             'bids'    => $bids,
             'message' => 'Users Bids Retrieved Successfully',
@@ -168,9 +168,12 @@ class UserController extends Controller
         $payables = Auction::join('products', 'products.id', 'auctions.product_id')
                     ->where('auctions.user_id', $id)
                     ->select('auctions.*', 'products.product_name')
-                    ->where('auctions.paying_time', '<=', Carbon::now())
+                    ->where('auctions.close_time', '<', Carbon::now())
+                    ->where('auctions.paying_time', '>', Carbon::now())
                     ->get()
                     ->count();
+
+           
             
         return response()->json([
         'bids' => $bids,
@@ -185,7 +188,7 @@ class UserController extends Controller
         $products = Auction::join('products', 'products.id', 'auctions.product_id')
                             ->where('auctions.user_id', $id)
                             ->select('auctions.*', 'products.product_name')
-                            ->get();
+                            ->latest()->get();
         return response()->json([
         'products'    => $products,
         'nowDatetime' => Carbon::now()->timezone('Asia/Dhaka'),
@@ -200,7 +203,7 @@ class UserController extends Controller
                             ->select('auctions.*', 'products.product_name')
                             ->where('auctions.close_time', '<', Carbon::now())
                             ->where('auctions.paying_time', '>', Carbon::now())
-                            ->get();
+                            ->latest()->get();
         return response()->json([
         'products'    => $products,
         'message' => 'Users Products Retrieved Successfully',
@@ -327,6 +330,23 @@ class UserController extends Controller
                 'message' => 'Not Eligible to Bid!'
             ], 201);
         }
+
+        $is_running_auction = Auction::leftjoin('users', 'users.id', '=', 'auctions.user_id')
+                            ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
+                            ->select('auctions.*', 'user_id AS uid','product_id AS pid','products.product_name','users.name','products.base_price')
+                            ->where('close_time', '<', Carbon::now())
+                            ->where('auctions.id', $request->auction_id)
+                            ->first();
+        
+        if(isset($is_running_auction))
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Auction Expired!'
+            ], 201);
+        }
+
+
         $winner_bid = Auction::find($request->auction_id);
 
         if(!isset($winner_bid)){
@@ -399,7 +419,7 @@ class UserController extends Controller
     }
 
     public function getBidders(){
-        $users = User::where('role', 'bidder')->get();
+        $users = User::where('role', 'bidder')->latest()->get();
         return response()->json([
             'bidders'    => $users,
             'message' => 'Bidders Data Retrieved Successfully',

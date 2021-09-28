@@ -48,6 +48,7 @@
 
                 <CountDown v-if="renderComponent" :dateTime="auction.close_time" />
                 <h2 class="text-lg font-bold">Base Price: {{ auction.base_price }}</h2> 
+                <h2 v-if="can_bid" class="text-lg font-bold">Highest Bidder: {{ auction.user_name }}</h2> 
                 <h2 v-if="can_bid" class="text-lg font-bold">Highest Bid: {{ auction.winner_bid }}</h2> 
                 <!-- <div class="form-control">
                  <input type="text" placeholder="Bid" class="input input-bordered">

@@ -8,7 +8,7 @@
         <h2 class="card-title">{{ product_name }}
         <!-- <div class="badge mx-2 badge-primary">NEW</div> -->
         </h2> 
-        <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
+        <div v-if="type === 1" class="grid grid-flow-col gap-5 text-center auto-cols-max">
             <div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
                 <span class="font-mono text-2xl countdown">
                 <span :style="'--value:'+timer.days.value"></span>
@@ -61,7 +61,8 @@ export default {
         id: Number,
         base_price: Number,
         expected_value: Number,
-        percentage: Number
+        percentage: Number,
+        type: Number
     },
     setup(props){
         const time = new Date(props.expiryDate);

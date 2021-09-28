@@ -44,7 +44,7 @@ class AuctionController extends Controller
          ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
          ->select('auctions.*', 'user_id AS uid','product_id AS pid','products.product_name','users.name','products.base_price')
         ->where('close_time', '<', Carbon::now())
-        ->get();
+        ->latest()->get();
         $auctions1 = DB::table('auctions')
         ->where('paying_time', '<', Carbon::now())
         ->get();
@@ -63,7 +63,7 @@ class AuctionController extends Controller
          ->leftjoin('products', 'products.id', '=', 'auctions.product_id')
          ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price','products.expected_value','products.percentage', 'products.front_image', 'products.category_id')
         ->where('auctions.start_time', '>', Carbon::now())
-        ->get();
+        ->latest()->get();
         
         $status = $auctions->count() ? true : false;
         return response()->json([   
@@ -80,7 +80,7 @@ class AuctionController extends Controller
             ->select('auctions.*', 'product_id AS pid','products.product_name','products.base_price','products.expected_value','products.percentage', 'products.front_image', 'products.category_id')
             ->where('close_time', '>=', Carbon::now())
             ->where('start_time', '<=', Carbon::now())
-            ->get();
+            ->latest()->get();
         
         $status = $auctions->count() ? true : false;
         return response()->json([   
@@ -123,7 +123,7 @@ class AuctionController extends Controller
         ->select('auctions.*', 'user_id AS uid','product_id AS pid','products.product_name',
         'products.front_image','products.back_image','products.left_image',
         'products.right_image','products.description','users.name','products.base_price',
-        'products.specification', 'products.percentage', 'products.expected_value')
+        'products.specification', 'products.percentage', 'products.expected_value', 'users.name as user_name')
         ->where('auctions.id', '=', $id)
         ->get();
 
