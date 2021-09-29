@@ -21,7 +21,7 @@ Route::post('/register', [UserController::class, 'store']);
 Route::get('auction/all', [AdminController::class, 'AllAuction']);
 Route::get('count/all', [AdminController::class, 'Allcount']);
 
-
+Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::get('auction/create/getproduct/{id}', [ProductController::class, 'getproductsbyid']);
 
@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth:api'], function ()
 {
     //public routes
     Route::get('/user', [UserController::class, 'index']);
-    Route::get('/categories', [CategoryController::class, 'index']);
+    
 
     //admin routes
     Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function ()
