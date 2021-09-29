@@ -64,6 +64,7 @@
                     :expected_value="auction.expected_value"
                     :percentage="auction.percentage"
                     :type="auctionType"
+                    :start_time="auction.start_time"
                     />
             </div>
         </div>

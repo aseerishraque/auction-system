@@ -38,6 +38,7 @@
                 
             </div>
         </div>
+        <span v-if="type === 2"> <b> Start Time:</b> {{ start_time }}</span>
         <span> <b> Base Price:</b> {{ base_price }}</span>
         <span> <b>Required Balance:</b> {{ expected_value*(percentage/100) }}</span>
         <div class="justify-end card-actions">
@@ -62,7 +63,8 @@ export default {
         base_price: Number,
         expected_value: Number,
         percentage: Number,
-        type: Number
+        type: Number,
+        start_time: String
     },
     setup(props){
         const time = new Date(props.expiryDate);
