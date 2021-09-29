@@ -2,6 +2,6 @@ class env {
     static baseURL = "http://localhost:8000";
 
     static CLIENT_ID = 2;
-    static CLIENT_SECRET = "R2H2Si9pya2vIY4bkjx43sSneLuYRL24v9dinB1S";
+    static CLIENT_SECRET = "sgLeV6nv9cdrOcoNoxEr5AlenTh02k8aEHLUsSvL";
 }
 export default env;

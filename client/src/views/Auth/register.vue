@@ -139,6 +139,7 @@
 
 <script>
 import {useRouter} from "vue-router";
+const router = useRouter();
 
 export default {
         data(){
@@ -232,7 +233,6 @@ export default {
                     this.msg=successMessage;
                     this.statusText = '';
                     this.errors = Object.assign({}, this.default_errors);
-                    const router = useRouter();
                     router.push({ name: 'auth.login'});
                 })
                 .catch(error => {
