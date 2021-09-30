@@ -42,7 +42,7 @@
         <span> <b> Base Price:</b> {{ base_price }}</span>
         <span> <b>Required Balance:</b> {{ expected_value*(percentage/100) }}</span>
         <div class="justify-end card-actions">
-        <router-link :to="{name: 'visitor.product', params: {id}}">
+        <router-link :to="{name: 'visitor.product', params: {id: id, type: routeParam}}">
             <button class="btn btn-primary btn-sm">More info</button>
         </router-link>
         </div>
@@ -64,6 +64,7 @@ export default {
         expected_value: Number,
         percentage: Number,
         type: Number,
+        routeParam: Number,
         start_time: String
     },
     setup(props){

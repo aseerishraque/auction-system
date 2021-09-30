@@ -5,7 +5,7 @@ export default [{
         import ("../views/Visitor/home.vue"),
 },
 {
-    path: "/product/:id",
+    path: "/product/:id/:type?",
     name: "visitor.product",
     component: () =>
         import ("../views/Visitor/product.vue"),

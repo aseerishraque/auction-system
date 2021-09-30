@@ -45,8 +45,8 @@
                 <p> {{ auction.specification }} </p>
                 <h2 class="text-lg font-bold">Required Balance: {{ auction.expected_value*(auction.percentage/100) }}</h2>
                
-
-                <CountDown v-if="renderComponent" :dateTime="auction.close_time" />
+                
+                <CountDown v-if="renderComponent" :dateTime="this.$route.params.type === '2' ? auction.start_time: auction.close_time" />
                 <h2 class="text-lg font-bold">Base Price: {{ auction.base_price }}</h2> 
                 <h2 v-if="can_bid" class="text-lg font-bold">Highest Bidder: {{ auction.user_name }}</h2> 
                 <h2 v-if="can_bid" class="text-lg font-bold">Highest Bid: {{ auction.winner_bid }}</h2> 

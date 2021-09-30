@@ -77,6 +77,7 @@
                     :expected_value="upcommingAuctions.expected_value"
                     :percentage="upcommingAuctions.percentage"
                     :type="1"
+                    :routeParam="2"
                     />
     </div>
 <!-- Featured Section END -->
