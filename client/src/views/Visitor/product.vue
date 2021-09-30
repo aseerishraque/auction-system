@@ -202,8 +202,8 @@ export default {
                     // this.forceRerender();
                     // console.log(this.auction.front_image)	
                 }).catch(response => {
-                    // this.errors=response.error.data;
-                    console.log(response)
+                    this.errors=response.error.data;
+                    // console.log(response)
                 });
         },
         forceRerender() {
