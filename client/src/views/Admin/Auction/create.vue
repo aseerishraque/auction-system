@@ -181,6 +181,7 @@ export default {
                     this.message = response.data.message;
                     this.resetFormData();
                     this.statusText = '';
+                    this.errors = null;
                 })
                 .catch(error => {
                     this.statusText = error.response.statusText;

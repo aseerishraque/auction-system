@@ -65,6 +65,7 @@
                     :percentage="auction.percentage"
                     :type="auctionType"
                     :start_time="auction.start_time"
+                    :routeParam="auctionType"
                     />
             </div>
         </div>
