@@ -231,6 +231,7 @@ export default {
                 reader.readAsDataURL(file);
             },
             register(user){
+                this.errors = Object.assign({}, this.default_errors);
                 axios.post(API.register,user)
                 .then(response => {
                     
@@ -238,7 +239,7 @@ export default {
                     let successMessage = response.data.message;
                     this.msg=successMessage;
                     this.statusText = '';
-                    this.errors = Object.assign({}, this.default_errors);
+                    
                    
                 })
                 .catch(error => {
