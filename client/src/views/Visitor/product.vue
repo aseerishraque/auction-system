@@ -85,7 +85,7 @@ import BidderService from '../../services/BidderService';
 import CountDown from '../../components/Visitor/CountDown.vue';
 import env from '../../config/env';
 let datetime = new Date();
-datetime.setSeconds(datetime.getSeconds() + 600);
+datetime.setSeconds(datetime.getSeconds() + 0);
 datetime = datetime.toISOString();
 
 export default {
@@ -136,13 +136,14 @@ export default {
         }
         
         this.getauctiondetails();
-        setInterval(()=>{
-            this.getauctiondetails();
-        }, 2000)
+        // setInterval(()=>{
+        //     this.getauctiondetails();
+        // }, 2000)
     },
     methods: {
         bidProduct(){
             this.btn_loading = true;
+            this.bid.user_id = Store.state.currentUser.id;
             BidderService.bidProduct(this.bid)
             .then(res=>{
                 if(res.data.status){
@@ -164,6 +165,7 @@ export default {
         },
         getauctiondetails()
         {
+        
         AuctionService.getauctiondetails(this.auctionid)
                 .then(response => {
                     // console.log("Called");
@@ -190,16 +192,18 @@ export default {
                     }else{
                         this.auction.right_image = '/images/pre-upload.png';
                     }
-                    this.bid.user_id = Store.state.currentUser.id;
+                    // this.bid.user_id = Store.state.currentUser.id;
                     this.bid.auction_id = this.auction.id;
                     this.bid.percentage = this.auction.percentage;
                     this.bid.expected_value = this.auction.expected_value;
                     this.bid.base_price = this.auction.base_price;
                     this.bid.bidding_date = new Date().toISOString().split('T')[0];
                     this.forceRerender();
+                    // this.forceRerender();
                     // console.log(this.auction.front_image)	
                 }).catch(response => {
-                    this.errors=response.error.data;
+                    // this.errors=response.error.data;
+                    console.log(response)
                 });
         },
         forceRerender() {

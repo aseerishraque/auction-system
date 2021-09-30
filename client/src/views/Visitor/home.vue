@@ -64,6 +64,7 @@
                     :expected_value="runningAuction.expected_value"
                     :percentage="runningAuction.percentage"
                     :type="1"
+                    :routeParam="1"
                     />
     </div>
     <h1 class="text-3xl mt-10 mb-5">Upcoming Auctions</h1>

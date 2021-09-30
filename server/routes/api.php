@@ -63,6 +63,8 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::post('decline-product', [UserController::class, 'declineProduct']);
         Route::post('pay-now', [UserController::class, 'payNow']);
     });
+
+    
 });
 
 Route::get('auction-data/running', [AuctionController::class, 'RunningAuction']);
